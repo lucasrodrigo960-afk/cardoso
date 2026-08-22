@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowDown, ShieldCheck } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import type { Tour, Room } from '../types';
 
 interface HeroOverviewProps {
@@ -10,8 +10,8 @@ interface HeroOverviewProps {
 
 export const HeroOverview: React.FC<HeroOverviewProps> = ({ tour, onStartExplore }) => {
   return (
-    <section id="overview" className="relative min-h-[92vh] flex flex-col justify-end pb-16 pt-28 bg-[#0b0c0e] overflow-hidden">
-      {/* Background Hero Media */}
+    <section id="overview" className="relative min-h-screen flex flex-col justify-between pt-28 pb-12 bg-[#08090A] overflow-hidden select-none">
+      {/* Background Deep Black Atmosphere with Subtle Ambient Photo */}
       <div className="absolute inset-0 z-0">
         {tour.heroVideo ? (
           <video
@@ -19,73 +19,86 @@ export const HeroOverview: React.FC<HeroOverviewProps> = ({ tour, onStartExplore
             loop
             muted
             playsInline
-            className="w-full h-full object-cover opacity-70 filter brightness-[0.75] contrast-[1.05] scale-105"
+            className="w-full h-full object-cover opacity-25 filter brightness-[0.4] contrast-[1.1] scale-105"
             src={tour.heroVideo}
           />
         ) : (
           <img
             src={tour.heroImage}
             alt={tour.propertyName}
-            className="w-full h-full object-cover opacity-70 filter brightness-[0.75] contrast-[1.05] scale-105"
+            className="w-full h-full object-cover opacity-25 filter brightness-[0.4] contrast-[1.1] scale-105"
           />
         )}
-        {/* Gradients */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0b0c0e] via-[#0b0c0e]/40 to-[#0b0c0e]/70" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_transparent_30%,_#0b0c0e_95%)] opacity-80" />
+        {/* Deep Black Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#08090A] via-[#08090A]/85 to-[#08090A]/95" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_40%_40%,_rgba(212,175,55,0.08)_0%,_transparent_60%)]" />
+
+        {/* Ambient Gold Radial Glow behind Giant Logo */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-500/10 rounded-full filter blur-[160px] pointer-events-none" />
       </div>
 
-      {/* Editorial Hero Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 w-full flex flex-col items-center text-center">
-        {/* Discrete Brand Badge */}
-        <div className="mb-6 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#141518]/80 border border-white/10 text-amber-400 text-[11px] font-mono tracking-[0.25em] uppercase backdrop-blur-md mb-2">
-            <ShieldCheck className="w-3.5 h-3.5 text-amber-400" />
-            <span>CARDOSO IMÓVEIS · IMÓVEL SELECIONADO</span>
+      {/* Main Hero Section: GIANT CARDOSO LOGO (Protagonist 45%-65% Viewport) */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-12 w-full my-auto flex flex-col items-center text-center">
+        {/* Context Label above Logo */}
+        <div className="text-[11px] sm:text-xs font-mono tracking-[0.35em] text-amber-400 uppercase font-light mb-6 opacity-90">
+          TOUR EXCLUSIVE
+        </div>
+
+        {/* GIANT LOGO ASSET (Monumental Presence 45%-65% Viewport Width) */}
+        <div className="relative w-full max-w-[850px] flex items-center justify-center py-2">
+          <img
+            src="/assets/logo-hero-gold.jpg"
+            alt="CARDOSO IMÓVEIS"
+            className="w-[80vw] sm:w-[60vw] md:w-[55vw] max-w-[750px] min-w-[280px] h-auto object-contain mix-blend-screen filter drop-shadow-[0_0_40px_rgba(212,175,55,0.3)] transition-transform duration-700 hover:scale-[1.01]"
+          />
+        </div>
+
+        {/* Context Text below Logo */}
+        <h2 className="text-base sm:text-xl font-serif italic text-zinc-300 font-light tracking-wide mt-6 max-w-md">
+          UMA EXPERIÊNCIA EXCLUSIVA CARDOSO
+        </h2>
+      </div>
+
+      {/* Floating Property Card (Positioned at Bottom Right) */}
+      <div className="relative z-20 max-w-7xl mx-auto px-6 md:px-12 w-full flex justify-end items-end pt-8">
+        <div
+          onClick={onStartExplore}
+          className="w-full sm:max-w-[360px] bg-white/[0.025] backdrop-blur-xl border border-white/10 rounded-2xl p-5 shadow-[0_20px_60px_rgba(0,0,0,0.8),0_0_30px_rgba(212,175,55,0.05)] hover:border-amber-400/40 hover:-translate-y-1 transition-all duration-500 cursor-pointer group"
+        >
+          {/* Card Top: Small Photo + Reservation Info */}
+          <div className="flex items-center gap-4 mb-4">
+            <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-white/10 bg-black">
+              <img
+                src={tour.heroImage}
+                alt={tour.propertyName}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 filter brightness-[0.9]"
+              />
+            </div>
+
+            <div className="flex flex-col text-left">
+              <span className="text-[10px] font-mono text-amber-400 tracking-widest uppercase font-semibold">
+                IMÓVEL RESERVADO
+              </span>
+              <h4 className="text-base font-serif font-light text-white tracking-wide leading-snug line-clamp-1 group-hover:text-amber-300 transition-colors">
+                {tour.propertyName}
+              </h4>
+              <span className="text-xs text-zinc-400 font-light truncate">
+                {tour.location}
+              </span>
+              <span className="text-xs font-serif font-semibold text-white mt-0.5">
+                {tour.price}
+              </span>
+            </div>
           </div>
-        </div>
 
-        {/* Property Name */}
-        <h1 className="text-4xl sm:text-7xl lg:text-8xl font-extralight text-white tracking-tight font-serif mb-3 leading-none drop-shadow-2xl">
-          {tour.propertyName}
-        </h1>
-
-        {/* Location Sub-text */}
-        <p className="text-base md:text-xl font-light text-zinc-300 tracking-[0.2em] uppercase mb-4 font-serif">
-          {tour.location}
-        </p>
-
-        {/* Short Sentence */}
-        <p className="text-sm md:text-base text-zinc-300 font-light italic mb-8 max-w-lg mx-auto font-serif">
-          "{tour.tagline || 'Conheça todos os detalhes deste imóvel antes de agendar sua visita.'}"
-        </p>
-
-        {/* Specs & Price Line */}
-        <div className="flex flex-col md:flex-row items-center justify-center gap-2 md:gap-6 text-sm text-zinc-300 font-light mb-10">
-          <span className="text-white font-serif text-2xl font-normal">{tour.price}</span>
-          <span className="hidden md:inline text-amber-500/50">•</span>
-          <span className="tracking-[0.2em] uppercase text-xs text-zinc-300 font-light">
-            {tour.details.builtAreaM2} m² · {tour.details.bedrooms} QUARTOS · {tour.details.suites} SUÍTES · {tour.details.parkingSpaces} VAGAS
-          </span>
-        </div>
-
-        {/* Elegant Action Button */}
-        <div className="flex flex-col items-center gap-8">
+          {/* Action Button: EXPLORAR IMÓVEL */}
           <button
             onClick={onStartExplore}
-            className="group px-9 py-4 rounded-full bg-[#141518]/90 hover:bg-white text-white hover:text-black border border-white/20 hover:border-white font-light text-xs tracking-[0.3em] uppercase transition-all duration-500 shadow-2xl backdrop-blur-md cursor-pointer flex items-center gap-3"
+            className="w-full py-3 px-5 rounded-xl bg-gradient-to-r from-amber-400 via-amber-500 to-amber-600 hover:from-amber-300 hover:to-amber-500 text-slate-950 font-bold text-xs uppercase tracking-[0.2em] shadow-lg hover:shadow-[0_0_25px_rgba(212,175,55,0.5)] transition-all duration-300 cursor-pointer flex items-center justify-between group/btn"
           >
             <span>EXPLORAR IMÓVEL</span>
-            <ArrowDown className="w-4 h-4 transition-transform duration-300 group-hover:translate-y-1" />
+            <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover/btn:translate-x-1" />
           </button>
-
-          {/* Subtle Scroll Indicator */}
-          <div
-            onClick={onStartExplore}
-            className="flex flex-col items-center gap-2 text-[10px] uppercase tracking-[0.25em] text-zinc-500 hover:text-amber-400 cursor-pointer transition-colors"
-          >
-            <span>SCROLL PARA EXPLORAR</span>
-            <div className="w-[1px] h-8 bg-gradient-to-b from-amber-400/80 to-transparent animate-pulse" />
-          </div>
         </div>
       </div>
     </section>

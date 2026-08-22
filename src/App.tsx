@@ -1,44 +1,53 @@
 import { useState } from 'react';
 import type { Tour, Room } from './types';
-import { DEMO_TOUR } from './data/demoData';
+import { ALL_PROPERTIES, DEMO_TOUR } from './data/demoData';
 import { SplashScreen } from './components/SplashScreen';
 import { TourHeader } from './components/TourHeader';
 import { HeroOverview } from './components/HeroOverview';
+import { PropertyOverview } from './components/PropertyOverview';
+import { VirtualTour3D } from './components/VirtualTour3D';
 import { RoomGrid } from './components/RoomGrid';
-import { RoomModalViewer } from './components/RoomModalViewer';
+import { EditorialGallery } from './components/EditorialGallery';
 import { InteractiveFloorPlan } from './components/InteractiveFloorPlan';
 import { LocationSection } from './components/LocationSection';
-import { PropertyDetails } from './components/PropertyDetails';
-import { FinalCTA } from './components/FinalCTA';
+import { FactualDetails } from './components/FactualDetails';
+import { CommercialPrice } from './components/CommercialPrice';
+import { ScheduleVisitSection } from './components/ScheduleVisitSection';
+import { Footer } from './components/Footer';
+import { RoomModalViewer } from './components/RoomModalViewer';
 import { ScheduleModal } from './components/ScheduleModal';
 import { AdminPanel } from './components/AdminPanel';
 
 export function App() {
-  const [tour, setTour] = useState<Tour>(() => {
-    const saved = localStorage.getItem('cardoso_imob_tour_data');
+  const [allTours, setAllTours] = useState<Tour[]>(() => {
+    const saved = localStorage.getItem('cardoso_imoveis_tours');
     if (saved) {
       try {
         return JSON.parse(saved);
       } catch (e) {
-        return DEMO_TOUR;
+        return ALL_PROPERTIES;
       }
     }
-    return DEMO_TOUR;
+    return ALL_PROPERTIES;
   });
 
+  const [currentTour, setCurrentTour] = useState<Tour>(() => allTours[0] || DEMO_TOUR);
   const [showSplash, setShowSplash] = useState(true);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
 
   const handleSaveTour = (updatedTour: Tour) => {
-    setTour(updatedTour);
-    localStorage.setItem('cardoso_imob_tour_data', JSON.stringify(updatedTour));
+    setCurrentTour(updatedTour);
+    const updatedList = allTours.map((t) => (t.id === updatedTour.id ? updatedTour : t));
+    setAllTours(updatedList);
+    localStorage.setItem('cardoso_imoveis_tours', JSON.stringify(updatedList));
   };
 
   const handleResetDemo = () => {
-    setTour(DEMO_TOUR);
-    localStorage.removeItem('cardoso_imob_tour_data');
+    setCurrentTour(ALL_PROPERTIES[0]);
+    setAllTours(ALL_PROPERTIES);
+    localStorage.removeItem('cardoso_imoveis_tours');
   };
 
   const scrollToSection = (sectionId: string) => {
@@ -54,60 +63,81 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#09090b] text-gray-100 font-sans selection:bg-amber-500/30 selection:text-amber-200">
+    <div className="min-h-screen bg-[#0b0c0e] text-zinc-300 font-sans selection:bg-amber-500/20 selection:text-amber-100">
       {/* 1. Splash Entrance Screen */}
       {showSplash && (
-        <SplashScreen tour={tour} onEnter={handleEnterTour} />
+        <SplashScreen tour={currentTour} onEnter={handleEnterTour} />
       )}
 
-      {/* Main Tour Page Content */}
+      {/* Main Single/Selected Property View */}
       <div className={`${showSplash ? 'hidden' : 'block'} transition-opacity duration-700`}>
         {/* Navigation Header */}
         <TourHeader
-          tour={tour}
+          currentTour={currentTour}
+          allTours={allTours}
+          onSelectTour={(t) => setCurrentTour(t)}
           onOpenAdmin={() => setShowAdminModal(true)}
           onNavigateTo={scrollToSection}
         />
 
-        {/* Main Hero Overview */}
+        {/* Hero Section */}
         <HeroOverview
-          tour={tour}
-          onStartExplore={() => scrollToSection('rooms')}
+          tour={currentTour}
+          onStartExplore={() => scrollToSection('overview-details')}
+          onSelectRoom={(room) => setSelectedRoom(room)}
         />
 
-        {/* Room Grid Explorer ("Explore a Propriedade") */}
+        {/* "CONHEÇA O IMÓVEL" — Description & Big Thin Numbers with 1px Lines */}
+        <PropertyOverview tour={currentTour} />
+
+        {/* "EXPLORE ANTES DE VISITAR" — 3D Virtual Tour Feature */}
+        <VirtualTour3D tour={currentTour} />
+
+        {/* Room Grid Explorer */}
         <RoomGrid
-          rooms={tour.rooms}
+          rooms={currentTour.rooms}
           onSelectRoom={(room) => setSelectedRoom(room)}
         />
 
-        {/* Interactive Floor Plan ("Explore pela Planta") */}
+        {/* Editorial Photo Gallery */}
+        <EditorialGallery tour={currentTour} />
+
+        {/* Interactive Floor Plan */}
         <InteractiveFloorPlan
-          floorPlanImage={tour.floorPlanImage}
-          hotspots={tour.floorPlanHotspots}
-          rooms={tour.rooms}
+          floorPlanImage={currentTour.floorPlanImage}
+          hotspots={currentTour.floorPlanHotspots}
+          rooms={currentTour.rooms}
           onSelectRoom={(room) => setSelectedRoom(room)}
         />
 
-        {/* Location & Region Map */}
-        <LocationSection tour={tour} />
+        {/* Location & Region Map ("ONDE ESTÁ O IMÓVEL") */}
+        <LocationSection tour={currentTour} />
 
-        {/* Property Technical Details */}
-        <PropertyDetails tour={tour} />
+        {/* Factual Technical Sheet ("SOBRE O IMÓVEL" & "O QUE VOCÊ VAI ENCONTRAR") */}
+        <FactualDetails tour={currentTour} />
 
-        {/* Final Tour & Contact Section with CEO Douglas Cardoso Card */}
-        <FinalCTA
-          tour={tour}
+        {/* Commercial Pricing Block ("VALOR DO IMÓVEL") */}
+        <CommercialPrice
+          tour={currentTour}
+          onInterest={() => setShowScheduleModal(true)}
+        />
+
+        {/* Schedule & Contact Section ("GOSTOU DO QUE VIU?" + Douglas Cardoso CEO Card) */}
+        <ScheduleVisitSection
+          tour={currentTour}
           onBackToTop={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
           onScheduleVisit={() => setShowScheduleModal(true)}
         />
+
+        {/* Minimalist Footer */}
+        <Footer />
       </div>
 
-      {/* Room Modal Experience Viewer */}
+      {/* Interactive Room Experience Modal */}
       {selectedRoom && (
         <RoomModalViewer
           room={selectedRoom}
-          allRooms={tour.rooms}
+          allRooms={currentTour.rooms}
           onClose={() => setSelectedRoom(null)}
           onNavigateRoom={(nextRoom) => setSelectedRoom(nextRoom)}
         />
@@ -116,15 +146,15 @@ export function App() {
       {/* Schedule Visit Modal */}
       {showScheduleModal && (
         <ScheduleModal
-          tour={tour}
+          tour={currentTour}
           onClose={() => setShowScheduleModal(false)}
         />
       )}
 
-      {/* Simple Admin Panel Modal */}
+      {/* Admin Panel Modal */}
       {showAdminModal && (
         <AdminPanel
-          currentTour={tour}
+          currentTour={currentTour}
           onSaveTour={handleSaveTour}
           onResetDemo={handleResetDemo}
           onClose={() => setShowAdminModal(false)}

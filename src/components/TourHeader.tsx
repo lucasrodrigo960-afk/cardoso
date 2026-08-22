@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Settings } from 'lucide-react';
+import { Menu, X, Settings, ChevronDown, Building2 } from 'lucide-react';
 import type { Tour } from '../types';
 
 interface TourHeaderProps {
-  tour: Tour;
+  currentTour: Tour;
+  allTours: Tour[];
+  onSelectTour: (tour: Tour) => void;
   onOpenAdmin: () => void;
   onNavigateTo: (sectionId: string) => void;
 }
 
-export const TourHeader: React.FC<TourHeaderProps> = ({ tour, onOpenAdmin, onNavigateTo }) => {
+export const TourHeader: React.FC<TourHeaderProps> = ({
+  currentTour,
+  allTours,
+  onSelectTour,
+  onOpenAdmin,
+  onNavigateTo,
+}) => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [propertyDropdownOpen, setPropertyDropdownOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,8 +31,8 @@ export const TourHeader: React.FC<TourHeaderProps> = ({ tour, onOpenAdmin, onNav
 
   const navItems = [
     { label: 'Imóvel', id: 'overview' },
-    { label: 'Ambientes', id: 'rooms' },
-    { label: 'Planta', id: 'floorplan' },
+    { label: 'Tour 3D', id: 'tour3d' },
+    { label: 'Fotos', id: 'gallery' },
     { label: 'Localização', id: 'location' },
     { label: 'Detalhes', id: 'details' },
     { label: 'Contato', id: 'contact' },
@@ -38,37 +47,73 @@ export const TourHeader: React.FC<TourHeaderProps> = ({ tour, onOpenAdmin, onNav
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#08080a]/95 backdrop-blur-md py-4 border-b border-white/10 shadow-2xl'
-          : 'bg-gradient-to-b from-[#08080a]/90 via-[#08080a]/40 to-transparent py-6 border-b border-white/5'
+          ? 'bg-[#0b0c0e]/95 backdrop-blur-md py-4 border-b border-white/10 shadow-2xl'
+          : 'bg-gradient-to-b from-[#0b0c0e]/90 via-[#0b0c0e]/40 to-transparent py-5 border-b border-white/5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
-        {/* Left: Brand Logo & Title */}
-        <div className="flex items-center gap-4 cursor-pointer" onClick={() => handleItemClick('overview')}>
-          <img
-            src="/assets/logo-cardoso.png"
-            alt="Cardoso Imob"
-            className="h-9 sm:h-11 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(212,175,55,0.3)]"
-            onError={(e) => {
-              (e.target as HTMLElement).style.display = 'none';
-            }}
-          />
-          <div className="flex flex-col border-l border-white/15 pl-4">
-            <span className="text-white text-xs font-serif tracking-[0.2em] uppercase font-medium">CARDOSO IMOB</span>
-            <span className="text-amber-400/90 text-[10px] tracking-[0.25em] font-light uppercase">TOUR EXCLUSIVE</span>
+        {/* Left: Brand Logo & Property Switcher */}
+        <div className="flex items-center gap-4">
+          <div
+            className="flex items-center gap-3 cursor-pointer"
+            onClick={() => handleItemClick('overview')}
+          >
+            <img
+              src="/assets/logo-cardoso.png"
+              alt="Cardoso Imóveis"
+              className="h-8 sm:h-10 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(212,175,55,0.3)]"
+              onError={(e) => {
+                (e.target as HTMLElement).style.display = 'none';
+              }}
+            />
+            <div className="flex flex-col border-l border-white/15 pl-3">
+              <span className="text-white text-xs font-serif tracking-[0.2em] uppercase font-medium">CARDOSO IMÓVEIS</span>
+              <span className="text-amber-400/90 text-[10px] tracking-[0.2em] font-light uppercase">APRESENTAÇÃO EXCLUSIVA</span>
+            </div>
           </div>
-        </div>
 
-        {/* Center: Discrete Property Indicator (Desktop) */}
-        <div className="hidden lg:flex items-center gap-2.5 text-xs text-zinc-400 font-light">
-          <span className="w-1.5 h-1.5 rounded-full bg-amber-400" />
-          <span className="text-white font-serif tracking-wide">{tour.propertyName}</span>
-          <span className="text-zinc-600">|</span>
-          <span className="text-zinc-400">{tour.location}</span>
+          {/* Property Selector Dropdown */}
+          {allTours.length > 1 && (
+            <div className="relative hidden sm:block border-l border-white/15 pl-4 ml-2">
+              <button
+                onClick={() => setPropertyDropdownOpen(!propertyDropdownOpen)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-zinc-300 transition-all cursor-pointer"
+              >
+                <Building2 className="w-3.5 h-3.5 text-amber-400" />
+                <span className="font-serif truncate max-w-[140px]">{currentTour.propertyName}</span>
+                <ChevronDown className="w-3 h-3 text-zinc-400" />
+              </button>
+
+              {propertyDropdownOpen && (
+                <div className="absolute top-full left-4 mt-2 w-64 bg-[#121316] border border-white/15 rounded-xl shadow-2xl py-2 z-50 animate-in fade-in duration-200">
+                  <div className="px-3 py-1.5 text-[10px] font-mono text-amber-400 uppercase tracking-widest border-b border-white/10 mb-1">
+                    Imóveis Selecionados ({allTours.length})
+                  </div>
+                  {allTours.map((item) => (
+                    <button
+                      key={item.id}
+                      onClick={() => {
+                        onSelectTour(item);
+                        setPropertyDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-xs flex flex-col transition-colors ${
+                        item.id === currentTour.id
+                          ? 'bg-amber-400/10 text-amber-300 font-semibold border-l-2 border-amber-400'
+                          : 'text-zinc-300 hover:bg-white/5'
+                      }`}
+                    >
+                      <span className="font-serif text-white">{item.propertyName}</span>
+                      <span className="text-[10px] text-zinc-400 font-light">{item.location} • {item.price}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Right: Clean Editorial Navigation Links */}
-        <nav className="hidden md:flex items-center gap-8">
+        <nav className="hidden md:flex items-center gap-7">
           {navItems.map((item) => (
             <button
               key={item.id}
@@ -89,7 +134,7 @@ export const TourHeader: React.FC<TourHeaderProps> = ({ tour, onOpenAdmin, onNav
         </nav>
 
         {/* Mobile Controls */}
-        <div className="flex md:hidden items-center gap-4">
+        <div className="flex md:hidden items-center gap-3">
           <button
             onClick={onOpenAdmin}
             title="Admin"
@@ -109,13 +154,33 @@ export const TourHeader: React.FC<TourHeaderProps> = ({ tour, onOpenAdmin, onNav
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#08080a]/98 border-b border-white/10 px-8 py-8 animate-in slide-in-from-top duration-300">
-          <div className="flex flex-col gap-6">
-            <div className="pb-4 border-b border-white/10">
-              <div className="text-amber-400 text-[10px] uppercase tracking-[0.25em]">Apresentação Privativa</div>
-              <div className="text-white font-serif text-2xl mt-1">{tour.propertyName}</div>
-              <div className="text-zinc-400 text-xs mt-1">{tour.location} • {tour.price}</div>
-            </div>
+        <div className="md:hidden bg-[#0b0c0e]/98 border-b border-white/10 px-8 py-8 animate-in slide-in-from-top duration-300">
+          <div className="flex flex-col gap-5">
+            {/* Property Selector for Mobile */}
+            {allTours.length > 1 && (
+              <div className="pb-4 border-b border-white/10">
+                <div className="text-amber-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-2">Alternar Imóvel Selecionado</div>
+                <div className="flex flex-col gap-2">
+                  {allTours.map((t) => (
+                    <button
+                      key={t.id}
+                      onClick={() => {
+                        onSelectTour(t);
+                        setMobileMenuOpen(false);
+                      }}
+                      className={`text-left p-2.5 rounded-lg border text-xs flex justify-between items-center ${
+                        t.id === currentTour.id
+                          ? 'border-amber-400 bg-amber-400/10 text-amber-300'
+                          : 'border-white/10 text-zinc-300 bg-white/5'
+                      }`}
+                    >
+                      <span className="font-serif">{t.propertyName}</span>
+                      <span className="text-[10px] text-zinc-400">{t.price}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {navItems.map((item) => (
               <button

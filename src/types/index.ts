@@ -1,7 +1,7 @@
 export interface Room {
   id: string;
-  number: string; // e.g. "01", "02"
-  name: string;   // e.g. "SALA DE ESTAR"
+  number: string;
+  name: string;
   subtitle: string;
   areaM2: number;
   coverImage: string;
@@ -14,8 +14,8 @@ export interface Room {
 export interface FloorPlanSpot {
   roomId: string;
   label: string;
-  x: number; // percentage 0-100
-  y: number; // percentage 0-100
+  x: number;
+  y: number;
 }
 
 export interface RegionMarker {
@@ -23,8 +23,8 @@ export interface RegionMarker {
   title: string;
   timeText: string;
   category: 'estate' | 'beach' | 'shopping' | 'supermarket' | 'school' | 'other';
-  x: number; // percentage 0-100
-  y: number; // percentage 0-100
+  x: number;
+  y: number;
 }
 
 export interface PropertyDetails {
@@ -36,6 +36,9 @@ export interface PropertyDetails {
   parkingSpaces: number;
   condoFee?: string;
   iptu?: string;
+  propertyType: string;
+  furnishedStatus: string;
+  constructionYear?: string;
   features: string[];
 }
 
@@ -46,14 +49,20 @@ export interface Tour {
   active: boolean;
   propertyName: string;
   location: string;
+  neighborhood: string;
+  cityState: string;
   price: string;
+  rawPriceNumber: number;
   isExactLocation: boolean;
   address?: string;
   heroImage: string;
   heroVideo?: string;
   tagline?: string;
+  tour3DUrl: string; // URL for 3D Matterport or Virtual Tour 360
+  description: string;
   details: PropertyDetails;
   rooms: Room[];
+  galleryPhotos: string[];
   floorPlanImage?: string;
   floorPlanHotspots: FloorPlanSpot[];
   regionMapPrint: string;

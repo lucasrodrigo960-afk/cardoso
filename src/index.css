@@ -28,7 +28,29 @@
   }
 }
 
-/* Glassmorphism Dark Cards (Inspired by Reference 2 & 4) */
+/* Fine 1px Lines & Clean Surfaces */
+.border-subtle {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.bg-[#0b0c0e] {
+  background-color: #0b0c0e;
+}
+
+.bg-surface-dark {
+  background-color: #121316;
+}
+
+/* Subtle Gold Accents */
+.text-gold-champagne {
+  color: #d4af37;
+}
+
+.border-gold-champagne {
+  border-color: rgba(212, 175, 55, 0.4);
+}
+
+/* Glassmorphism Dark Cards */
 .glass-dark-card {
   background: rgba(18, 19, 22, 0.75);
   backdrop-filter: blur(24px);
@@ -37,39 +59,30 @@
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
 }
 
-.glass-dark-card-gold {
-  background: rgba(20, 20, 24, 0.8);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(212, 175, 55, 0.3);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(212, 175, 55, 0.1);
-}
-
-/* Warm Gold Pill Button (Inspired by Reference 3 - Nexora) */
 .btn-gold-warm {
   background: linear-gradient(135deg, #f5d061 0%, #d4af37 50%, #b89228 100%);
   color: #0b0c0e;
   font-weight: 700;
-  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
   transition: all 0.3s ease;
 }
 
 .btn-gold-warm:hover {
   background: linear-gradient(135deg, #ffe082 0%, #e5c158 50%, #d4af37 100%);
-  box-shadow: 0 12px 35px rgba(212, 175, 55, 0.55);
+  box-shadow: 0 12px 35px rgba(212, 175, 55, 0.45);
   transform: translateY(-2px);
 }
 
 .btn-glass-subtle {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   color: #ffffff;
   transition: all 0.3s ease;
 }
 
 .btn-glass-subtle:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.14);
   border-color: rgba(212, 175, 55, 0.5);
   color: #f5d061;
 }

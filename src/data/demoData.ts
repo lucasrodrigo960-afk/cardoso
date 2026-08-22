@@ -43,7 +43,7 @@ export const PROPERTY_01: Tour = {
   },
   themeConfig: {
     accentColor: '#d4af37',
-    backgroundColor: '#0b0c0e',
+    backgroundColor: '#08090A',
     surfaceColor: '#121316',
     textColor: '#f4f4f5',
     titleFontFamily: 'serif-playfair',
@@ -56,7 +56,6 @@ export const PROPERTY_01: Tour = {
     'tour3d',
     'rooms',
     'gallery',
-    'floorplan',
     'location',
     'details',
     'commercial',
@@ -269,13 +268,24 @@ export const PROPERTY_02: Tour = {
   },
   themeConfig: {
     accentColor: '#d4af37',
-    backgroundColor: '#0b0c0e',
+    backgroundColor: '#08090A',
     surfaceColor: '#121316',
     textColor: '#f4f4f5',
     titleFontFamily: 'serif-playfair',
     bodyFontFamily: 'sans-jakarta',
     logoUrl: '/assets/logo-cardoso.png'
   },
+  sectionOrder: [
+    'overview',
+    'property-overview',
+    'tour3d',
+    'rooms',
+    'gallery',
+    'location',
+    'details',
+    'commercial',
+    'contact'
+  ],
   rooms: [
     {
       id: 'apt-r1',

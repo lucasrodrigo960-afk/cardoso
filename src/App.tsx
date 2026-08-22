@@ -8,7 +8,6 @@ import { PropertyOverview } from './components/PropertyOverview';
 import { NativeTour3DViewer } from './components/NativeTour3DViewer';
 import { RoomGrid } from './components/RoomGrid';
 import { EditorialGallery } from './components/EditorialGallery';
-import { InteractiveFloorPlan } from './components/InteractiveFloorPlan';
 import { LocationSection } from './components/LocationSection';
 import { FactualDetails } from './components/FactualDetails';
 import { CommercialPrice } from './components/CommercialPrice';
@@ -60,14 +59,13 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // Section Order Mapping
+  // Section Order Mapping (Floor plan removed as requested)
   const sectionOrder = currentTour.sectionOrder || [
     'overview',
     'property-overview',
     'tour3d',
     'rooms',
     'gallery',
-    'floorplan',
     'location',
     'details',
     'commercial',
@@ -102,17 +100,6 @@ export function App() {
 
       case 'gallery':
         return <EditorialGallery key="gallery" tour={currentTour} />;
-
-      case 'floorplan':
-        return (
-          <InteractiveFloorPlan
-            key="floorplan"
-            floorPlanImage={currentTour.floorPlanImage}
-            hotspots={currentTour.floorPlanHotspots}
-            rooms={currentTour.rooms}
-            onSelectRoom={(room) => setSelectedRoom(room)}
-          />
-        );
 
       case 'location':
         return <LocationSection key="location" tour={currentTour} />;
@@ -158,7 +145,7 @@ export function App() {
     <div
       className="min-h-screen text-zinc-300 font-sans selection:bg-amber-500/20 selection:text-amber-100 transition-colors duration-500"
       style={{
-        backgroundColor: currentTour.themeConfig?.backgroundColor || '#0b0c0e',
+        backgroundColor: currentTour.themeConfig?.backgroundColor || '#08090A',
       }}
     >
       {/* 1. Splash Entrance Screen */}

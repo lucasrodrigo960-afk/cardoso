@@ -9,12 +9,11 @@ interface SectionReorderModalProps {
 }
 
 const SECTION_LABELS: Record<string, string> = {
-  overview: 'Hero Principal (Foto Grande & Título)',
+  overview: 'Hero Principal (Logo Cardoso Gigante & Card Flutuante)',
   'property-overview': 'Conheça o Imóvel (Descrição Factual & Números)',
-  tour3d: 'Tour Virtual 3D Nativo (Navegação Interativa)',
+  tour3d: 'Tour Virtual 3D Nativo (Navegação Interativa por Setas)',
   rooms: 'Visita por Ambientes (Cards dos Cômodos)',
   gallery: 'Galeria Fotográfica Editorial',
-  floorplan: 'Planta Baixa Interativa',
   location: 'Localização & Região no Mapa',
   details: 'Sobre o Imóvel (Ficha Técnica & Atributos)',
   commercial: 'Informações Comerciais (Valor & Condomínio)',
@@ -32,7 +31,6 @@ export const SectionReorderModal: React.FC<SectionReorderModalProps> = ({
     'tour3d',
     'rooms',
     'gallery',
-    'floorplan',
     'location',
     'details',
     'commercial',
@@ -40,7 +38,7 @@ export const SectionReorderModal: React.FC<SectionReorderModalProps> = ({
   ];
 
   const [order, setOrder] = useState<string[]>(
-    tour.sectionOrder || defaultOrder
+    (tour.sectionOrder || defaultOrder).filter((sec) => sec !== 'floorplan')
   );
 
   const moveUp = (index: number) => {

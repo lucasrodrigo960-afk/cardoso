@@ -41,6 +41,27 @@ export const PROPERTY_01: Tour = {
       'Garagem Coberta para 3 Veículos'
     ]
   },
+  themeConfig: {
+    accentColor: '#d4af37',
+    backgroundColor: '#0b0c0e',
+    surfaceColor: '#121316',
+    textColor: '#f4f4f5',
+    titleFontFamily: 'serif-playfair',
+    bodyFontFamily: 'sans-jakarta',
+    logoUrl: '/assets/logo-cardoso.png'
+  },
+  sectionOrder: [
+    'overview',
+    'property-overview',
+    'tour3d',
+    'rooms',
+    'gallery',
+    'floorplan',
+    'location',
+    'details',
+    'commercial',
+    'contact'
+  ],
   rooms: [
     {
       id: 'r1',
@@ -54,7 +75,17 @@ export const PROPERTY_01: Tour = {
         'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80'
       ],
       characteristics: ['Porta Pivotal de Madeira', 'Iluminação em LED', 'Jardim Frontal'],
-      order: 1
+      order: 1,
+      hotspots3D: [
+        {
+          id: 'hs1',
+          label: 'ENTRAR NA SALA DE ESTAR',
+          targetRoomId: 'r2',
+          xPercent: 50,
+          yPercent: 65,
+          type: 'arrow'
+        }
+      ]
     },
     {
       id: 'r2',
@@ -65,12 +96,37 @@ export const PROPERTY_01: Tour = {
       coverImage: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
       photos: [
         'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80',
-        'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=80',
-        'https://images.unsplash.com/photo-1600566753086-30f13f0b5efd?auto=format&fit=crop&w=1600&q=80'
+        'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=80'
       ],
       videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-living-room-with-large-windows-and-modern-decor-41585-large.mp4',
       characteristics: ['Pé-direito Duplo (6m)', 'Piso Porcelanato 120x120cm', 'Integração Externa'],
-      order: 2
+      order: 2,
+      hotspots3D: [
+        {
+          id: 'hs2_1',
+          label: 'IR PARA A COZINHA',
+          targetRoomId: 'r3',
+          xPercent: 78,
+          yPercent: 55,
+          type: 'door'
+        },
+        {
+          id: 'hs2_2',
+          label: 'ACESSAR PISCINA & GOURMET',
+          targetRoomId: 'r5',
+          xPercent: 25,
+          yPercent: 60,
+          type: 'arrow'
+        },
+        {
+          id: 'hs2_3',
+          label: 'VOLTAR PARA ENTRADA',
+          targetRoomId: 'r1',
+          xPercent: 48,
+          yPercent: 82,
+          type: 'arrow'
+        }
+      ]
     },
     {
       id: 'r3',
@@ -80,11 +136,20 @@ export const PROPERTY_01: Tour = {
       areaM2: 26,
       coverImage: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80',
       photos: [
-        'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1600&q=80',
-        'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1600&q=80'
+        'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1600&q=80'
       ],
       characteristics: ['Ilha Central em Granito', 'Armários Embutidos Evviva', 'Bancada de Lanche'],
-      order: 3
+      order: 3,
+      hotspots3D: [
+        {
+          id: 'hs3_1',
+          label: 'VOLTAR PARA A SALA',
+          targetRoomId: 'r2',
+          xPercent: 30,
+          yPercent: 65,
+          type: 'arrow'
+        }
+      ]
     },
     {
       id: 'r4',
@@ -94,12 +159,20 @@ export const PROPERTY_01: Tour = {
       areaM2: 34,
       coverImage: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80',
       photos: [
-        'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80',
-        'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1600&q=80'
+        'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80'
       ],
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-modern-bedroom-with-a-king-size-bed-41586-large.mp4',
       characteristics: ['Closet Integrado', 'Varanda Privativa', 'Ar-Condicionado Inverter'],
-      order: 4
+      order: 4,
+      hotspots3D: [
+        {
+          id: 'hs4_1',
+          label: 'VOLTAR PARA SALA PRINCIPAL',
+          targetRoomId: 'r2',
+          xPercent: 50,
+          yPercent: 75,
+          type: 'arrow'
+        }
+      ]
     },
     {
       id: 'r5',
@@ -109,12 +182,20 @@ export const PROPERTY_01: Tour = {
       areaM2: 55,
       coverImage: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80',
       photos: [
-        'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=80',
-        'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80'
+        'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=80'
       ],
-      videoUrl: 'https://assets.mixkit.co/videos/preview/mixkit-swimming-pool-in-a-luxury-house-41587-large.mp4',
       characteristics: ['Piscina Aquecida', 'Deck de Madeira', 'Churrasqueira em Inox'],
-      order: 5
+      order: 5,
+      hotspots3D: [
+        {
+          id: 'hs5_1',
+          label: 'ENTRAR NA SALA DE ESTAR',
+          targetRoomId: 'r2',
+          xPercent: 70,
+          yPercent: 50,
+          type: 'arrow'
+        }
+      ]
     }
   ],
   galleryPhotos: [
@@ -186,6 +267,15 @@ export const PROPERTY_02: Tour = {
       'Portaria 24h com Controle de Acesso Biométrico'
     ]
   },
+  themeConfig: {
+    accentColor: '#d4af37',
+    backgroundColor: '#0b0c0e',
+    surfaceColor: '#121316',
+    textColor: '#f4f4f5',
+    titleFontFamily: 'serif-playfair',
+    bodyFontFamily: 'sans-jakarta',
+    logoUrl: '/assets/logo-cardoso.png'
+  },
   rooms: [
     {
       id: 'apt-r1',
@@ -195,11 +285,20 @@ export const PROPERTY_02: Tour = {
       areaM2: 38,
       coverImage: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
       photos: [
-        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80',
-        'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1600&q=80'
+        'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80'
       ],
       characteristics: ['Piso Porcelanato Polido', 'Integração Varanda', 'Projeto Luminotécnico'],
-      order: 1
+      order: 1,
+      hotspots3D: [
+        {
+          id: 'apt_hs1',
+          label: 'IR PARA A SUÍTE PRINCIPAL',
+          targetRoomId: 'apt-r2',
+          xPercent: 70,
+          yPercent: 55,
+          type: 'door'
+        }
+      ]
     },
     {
       id: 'apt-r2',
@@ -212,39 +311,32 @@ export const PROPERTY_02: Tour = {
         'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80'
       ],
       characteristics: ['Armários Embutidos', 'Ar-Condicionado Inverter', 'Banheiro com Nicho'],
-      order: 2
-    },
-    {
-      id: 'apt-r3',
-      number: '03',
-      name: 'COZINHA & ÁREA DE SERVIÇO',
-      subtitle: 'Cozinha funcional equipada com armários Florence e despensa.',
-      areaM2: 18,
-      coverImage: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1200&q=80',
-      photos: [
-        'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=1600&q=80'
-      ],
-      characteristics: ['Bancada em Granito Preto', 'Área de Serviço Separada'],
-      order: 3
+      order: 2,
+      hotspots3D: [
+        {
+          id: 'apt_hs2',
+          label: 'VOLTAR PARA A SALA',
+          targetRoomId: 'apt-r1',
+          xPercent: 30,
+          yPercent: 70,
+          type: 'arrow'
+        }
+      ]
     }
   ],
   galleryPhotos: [
     'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80',
     'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1600&q=80',
-    'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?auto=format&fit=crop&w=1600&q=80',
     'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80'
   ],
   floorPlanImage: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80',
   floorPlanHotspots: [
     { roomId: 'apt-r1', label: 'SALA', x: 40, y: 50 },
-    { roomId: 'apt-r2', label: 'SUÍTE', x: 70, y: 30 },
-    { roomId: 'apt-r3', label: 'COZINHA', x: 30, y: 70 }
+    { roomId: 'apt-r2', label: 'SUÍTE', x: 70, y: 30 }
   ],
   regionMapPrint: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80',
   regionMarkers: [
-    { id: 'm1', title: 'EDIFÍCIO MARE', timeText: '📍 LOCALIZAÇÃO', category: 'estate', x: 50, y: 45 },
-    { id: 'm2', title: 'Orla da Jatiúca', timeText: '04 min a pé', category: 'beach', x: 35, y: 30 },
-    { id: 'm3', title: 'Supermercado Unicompra', timeText: '02 min a pé', category: 'supermarket', x: 65, y: 60 }
+    { id: 'm1', title: 'EDIFÍCIO MARE', timeText: '📍 LOCALIZAÇÃO', category: 'estate', x: 50, y: 45 }
   ],
   consultantName: 'Douglas Cardoso',
   consultantTitle: 'CEO - CRECI 73.567',

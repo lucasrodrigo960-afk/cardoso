@@ -1,3 +1,12 @@
+export interface Hotspot3D {
+  id: string;
+  label: string;
+  targetRoomId: string;
+  xPercent: number; // 0 to 100
+  yPercent: number; // 0 to 100
+  type?: 'arrow' | 'door' | 'info';
+}
+
 export interface Room {
   id: string;
   number: string;
@@ -9,6 +18,7 @@ export interface Room {
   videoUrl?: string;
   characteristics: string[];
   order: number;
+  hotspots3D?: Hotspot3D[];
 }
 
 export interface FloorPlanSpot {
@@ -42,6 +52,17 @@ export interface PropertyDetails {
   features: string[];
 }
 
+export interface ThemeConfig {
+  accentColor: string; // hex or tailwind name, e.g. '#d4af37'
+  backgroundColor: string; // hex, e.g. '#0b0c0e'
+  surfaceColor: string; // hex, e.g. '#121316'
+  textColor: string; // hex, e.g. '#f4f4f5'
+  titleFontFamily: 'serif-playfair' | 'serif-cinzel' | 'sans-jakarta' | 'sans-inter' | 'mono';
+  bodyFontFamily: 'sans-jakarta' | 'sans-inter' | 'serif-playfair' | 'mono';
+  logoUrl?: string;
+  secondaryLogoUrl?: string;
+}
+
 export interface Tour {
   id: string;
   slug: string;
@@ -58,7 +79,7 @@ export interface Tour {
   heroImage: string;
   heroVideo?: string;
   tagline?: string;
-  tour3DUrl: string; // URL for 3D Matterport or Virtual Tour 360
+  tour3DUrl: string; // Native or embedded tour URL
   description: string;
   details: PropertyDetails;
   rooms: Room[];
@@ -72,4 +93,6 @@ export interface Tour {
   consultantImage: string;
   consultantPhone: string;
   createdAt: string;
+  themeConfig?: ThemeConfig;
+  sectionOrder?: string[]; // Array of section IDs in desired render order
 }

@@ -5,7 +5,7 @@ import { SplashScreen } from './components/SplashScreen';
 import { TourHeader } from './components/TourHeader';
 import { HeroOverview } from './components/HeroOverview';
 import { PropertyOverview } from './components/PropertyOverview';
-import { VirtualTour3D } from './components/VirtualTour3D';
+import { NativeTour3DViewer } from './components/NativeTour3DViewer';
 import { RoomGrid } from './components/RoomGrid';
 import { EditorialGallery } from './components/EditorialGallery';
 import { InteractiveFloorPlan } from './components/InteractiveFloorPlan';
@@ -15,8 +15,7 @@ import { CommercialPrice } from './components/CommercialPrice';
 import { ScheduleVisitSection } from './components/ScheduleVisitSection';
 import { Footer } from './components/Footer';
 import { RoomModalViewer } from './components/RoomModalViewer';
-import { ScheduleModal } from './components/ScheduleModal';
-import { AdminPanel } from './components/AdminPanel';
+import { AdminPanelManager } from './components/AdminPanelManager';
 
 export function App() {
   const [allTours, setAllTours] = useState<Tour[]>(() => {
@@ -34,7 +33,6 @@ export function App() {
   const [currentTour, setCurrentTour] = useState<Tour>(() => allTours[0] || DEMO_TOUR);
   const [showSplash, setShowSplash] = useState(true);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
-  const [showScheduleModal, setShowScheduleModal] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
 
   const handleSaveTour = (updatedTour: Tour) => {
@@ -62,14 +60,113 @@ export function App() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  // Section Order Mapping
+  const sectionOrder = currentTour.sectionOrder || [
+    'overview',
+    'property-overview',
+    'tour3d',
+    'rooms',
+    'gallery',
+    'floorplan',
+    'location',
+    'details',
+    'commercial',
+    'contact'
+  ];
+
+  const renderSection = (secId: string) => {
+    switch (secId) {
+      case 'overview':
+        return (
+          <HeroOverview
+            key="overview"
+            tour={currentTour}
+            onStartExplore={() => scrollToSection('property-overview')}
+          />
+        );
+
+      case 'property-overview':
+        return <PropertyOverview key="property-overview" tour={currentTour} />;
+
+      case 'tour3d':
+        return <NativeTour3DViewer key="tour3d" tour={currentTour} />;
+
+      case 'rooms':
+        return (
+          <RoomGrid
+            key="rooms"
+            rooms={currentTour.rooms}
+            onSelectRoom={(room) => setSelectedRoom(room)}
+          />
+        );
+
+      case 'gallery':
+        return <EditorialGallery key="gallery" tour={currentTour} />;
+
+      case 'floorplan':
+        return (
+          <InteractiveFloorPlan
+            key="floorplan"
+            floorPlanImage={currentTour.floorPlanImage}
+            hotspots={currentTour.floorPlanHotspots}
+            rooms={currentTour.rooms}
+            onSelectRoom={(room) => setSelectedRoom(room)}
+          />
+        );
+
+      case 'location':
+        return <LocationSection key="location" tour={currentTour} />;
+
+      case 'details':
+        return <FactualDetails key="details" tour={currentTour} />;
+
+      case 'commercial':
+        return (
+          <CommercialPrice
+            key="commercial"
+            tour={currentTour}
+            onInterest={() => {
+              const whatsappUrl = `https://wa.me/${currentTour.consultantPhone}?text=${encodeURIComponent(
+                `Olá, gostaria de saber mais informações sobre o imóvel "${currentTour.propertyName}".`
+              )}`;
+              window.open(whatsappUrl, '_blank');
+            }}
+          />
+        );
+
+      case 'contact':
+        return (
+          <ScheduleVisitSection
+            key="contact"
+            tour={currentTour}
+            onBackToTop={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onScheduleVisit={() => {
+              const whatsappUrl = `https://wa.me/${currentTour.consultantPhone}?text=${encodeURIComponent(
+                `Olá, gostaria de agendar uma visita presencial para o imóvel "${currentTour.propertyName}".`
+              )}`;
+              window.open(whatsappUrl, '_blank');
+            }}
+          />
+        );
+
+      default:
+        return null;
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#0b0c0e] text-zinc-300 font-sans selection:bg-amber-500/20 selection:text-amber-100">
+    <div
+      className="min-h-screen text-zinc-300 font-sans selection:bg-amber-500/20 selection:text-amber-100 transition-colors duration-500"
+      style={{
+        backgroundColor: currentTour.themeConfig?.backgroundColor || '#0b0c0e',
+      }}
+    >
       {/* 1. Splash Entrance Screen */}
       {showSplash && (
         <SplashScreen tour={currentTour} onEnter={handleEnterTour} />
       )}
 
-      {/* Main Single/Selected Property View */}
+      {/* Main Pure Expository Public Site */}
       <div className={`${showSplash ? 'hidden' : 'block'} transition-opacity duration-700`}>
         {/* Navigation Header */}
         <TourHeader
@@ -80,60 +177,14 @@ export function App() {
           onNavigateTo={scrollToSection}
         />
 
-        {/* Hero Section */}
-        <HeroOverview
-          tour={currentTour}
-          onStartExplore={() => scrollToSection('overview-details')}
-          onSelectRoom={(room) => setSelectedRoom(room)}
-        />
-
-        {/* "CONHEÇA O IMÓVEL" — Description & Big Thin Numbers with 1px Lines */}
-        <PropertyOverview tour={currentTour} />
-
-        {/* "EXPLORE ANTES DE VISITAR" — 3D Virtual Tour Feature */}
-        <VirtualTour3D tour={currentTour} />
-
-        {/* Room Grid Explorer */}
-        <RoomGrid
-          rooms={currentTour.rooms}
-          onSelectRoom={(room) => setSelectedRoom(room)}
-        />
-
-        {/* Editorial Photo Gallery */}
-        <EditorialGallery tour={currentTour} />
-
-        {/* Interactive Floor Plan */}
-        <InteractiveFloorPlan
-          floorPlanImage={currentTour.floorPlanImage}
-          hotspots={currentTour.floorPlanHotspots}
-          rooms={currentTour.rooms}
-          onSelectRoom={(room) => setSelectedRoom(room)}
-        />
-
-        {/* Location & Region Map ("ONDE ESTÁ O IMÓVEL") */}
-        <LocationSection tour={currentTour} />
-
-        {/* Factual Technical Sheet ("SOBRE O IMÓVEL" & "O QUE VOCÊ VAI ENCONTRAR") */}
-        <FactualDetails tour={currentTour} />
-
-        {/* Commercial Pricing Block ("VALOR DO IMÓVEL") */}
-        <CommercialPrice
-          tour={currentTour}
-          onInterest={() => setShowScheduleModal(true)}
-        />
-
-        {/* Schedule & Contact Section ("GOSTOU DO QUE VIU?" + Douglas Cardoso CEO Card) */}
-        <ScheduleVisitSection
-          tour={currentTour}
-          onBackToTop={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-          onScheduleVisit={() => setShowScheduleModal(true)}
-        />
+        {/* Dynamic Reorderable Sections Presentation */}
+        {sectionOrder.map((secId) => renderSection(secId))}
 
         {/* Minimalist Footer */}
         <Footer />
       </div>
 
-      {/* Interactive Room Experience Modal */}
+      {/* Interactive Room Passage Modal */}
       {selectedRoom && (
         <RoomModalViewer
           room={selectedRoom}
@@ -143,17 +194,9 @@ export function App() {
         />
       )}
 
-      {/* Schedule Visit Modal */}
-      {showScheduleModal && (
-        <ScheduleModal
-          tour={currentTour}
-          onClose={() => setShowScheduleModal(false)}
-        />
-      )}
-
-      {/* Admin Panel Modal */}
+      {/* Admin Panel Manager */}
       {showAdminModal && (
-        <AdminPanel
+        <AdminPanelManager
           currentTour={currentTour}
           onSaveTour={handleSaveTour}
           onResetDemo={handleResetDemo}

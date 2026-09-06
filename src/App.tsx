@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import type { Tour, Room } from './types';
 import { ALL_PROPERTIES, DEMO_TOUR } from './data/demoData';
-import { SplashScreen } from './components/SplashScreen';
 import { TourHeader } from './components/TourHeader';
 import { HeroOverview } from './components/HeroOverview';
 import { PropertyOverview } from './components/PropertyOverview';
@@ -30,7 +29,6 @@ export function App() {
   });
 
   const [currentTour, setCurrentTour] = useState<Tour>(() => allTours[0] || DEMO_TOUR);
-  const [showSplash, setShowSplash] = useState(true);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [showAdminModal, setShowAdminModal] = useState(false);
 
@@ -54,12 +52,7 @@ export function App() {
     }
   };
 
-  const handleEnterTour = () => {
-    setShowSplash(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  // Section Order Mapping (Floor plan removed as requested)
+  // Section Order Mapping
   const sectionOrder = currentTour.sectionOrder || [
     'overview',
     'property-overview',
@@ -148,13 +141,8 @@ export function App() {
         backgroundColor: currentTour.themeConfig?.backgroundColor || '#08090A',
       }}
     >
-      {/* 1. Splash Entrance Screen */}
-      {showSplash && (
-        <SplashScreen tour={currentTour} onEnter={handleEnterTour} />
-      )}
-
-      {/* Main Pure Expository Public Site */}
-      <div className={`${showSplash ? 'hidden' : 'block'} transition-opacity duration-700`}>
+      {/* Main Pure Expository Public Site (Direct Access without Splash Screen) */}
+      <div className="block">
         {/* Navigation Header */}
         <TourHeader
           currentTour={currentTour}

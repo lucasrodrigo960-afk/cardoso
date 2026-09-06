@@ -4,7 +4,8 @@ import { ALL_PROPERTIES, DEMO_TOUR } from './data/demoData';
 import { TourHeader } from './components/TourHeader';
 import { HeroOverview } from './components/HeroOverview';
 import { PropertyOverview } from './components/PropertyOverview';
-import { NativeTour3DViewer } from './components/NativeTour3DViewer';
+import { GuidedTourBar } from './components/GuidedTourBar';
+import { PropertyVisualIndexMap } from './components/PropertyVisualIndexMap';
 import { RoomGrid } from './components/RoomGrid';
 import { EditorialGallery } from './components/EditorialGallery';
 import { LocationSection } from './components/LocationSection';
@@ -12,7 +13,7 @@ import { FactualDetails } from './components/FactualDetails';
 import { CommercialPrice } from './components/CommercialPrice';
 import { ScheduleVisitSection } from './components/ScheduleVisitSection';
 import { Footer } from './components/Footer';
-import { RoomModalViewer } from './components/RoomModalViewer';
+import { RoomPresenterModal } from './components/RoomPresenterModal';
 import { AdminPanelManager } from './components/AdminPanelManager';
 
 export function App() {
@@ -52,7 +53,7 @@ export function App() {
     }
   };
 
-  // Section Order Mapping
+  // Section Order Mapping (Definitive photographic presentation layout)
   const sectionOrder = currentTour.sectionOrder || [
     'overview',
     'property-overview',
@@ -72,7 +73,7 @@ export function App() {
           <HeroOverview
             key="overview"
             tour={currentTour}
-            onStartExplore={() => scrollToSection('conheca-o-imovel')}
+            onStartExplore={() => scrollToSection('tour3d')}
           />
         );
 
@@ -80,7 +81,20 @@ export function App() {
         return <PropertyOverview key="property-overview" tour={currentTour} />;
 
       case 'tour3d':
-        return <NativeTour3DViewer key="tour3d" tour={currentTour} />;
+        return (
+          <div key="tour3d" className="w-full">
+            {/* Guided Tour Bar Controls */}
+            <GuidedTourBar
+              tour={currentTour}
+              onSelectRoom={(room) => setSelectedRoom(room)}
+            />
+            {/* Architectural Visual Index Map */}
+            <PropertyVisualIndexMap
+              tour={currentTour}
+              onSelectRoom={(room) => setSelectedRoom(room)}
+            />
+          </div>
+        );
 
       case 'rooms':
         return (
@@ -130,7 +144,7 @@ export function App() {
 
   return (
     <div
-      className="min-h-screen text-[#F8F9FA] font-sans selection:bg-[#C5A880]/30 selection:text-[#E2D3BE] transition-colors duration-500 bg-[#0D0F12]"
+      className="min-h-screen text-[#111827] font-sans selection:bg-[#C5A880]/30 selection:text-[#9C7D54] transition-colors duration-500 bg-[#FBFBFC]"
     >
       {/* Navigation Header */}
       <TourHeader
@@ -147,9 +161,9 @@ export function App() {
       {/* Minimalist Footer */}
       <Footer />
 
-      {/* Interactive Room Passage Modal */}
+      {/* Room Photographic Presentation Modal */}
       {selectedRoom && (
-        <RoomModalViewer
+        <RoomPresenterModal
           room={selectedRoom}
           allRooms={currentTour.rooms}
           onClose={() => setSelectedRoom(null)}

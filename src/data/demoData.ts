@@ -13,12 +13,11 @@ export const PROPERTY_01: Property = {
   rawPriceNumber: 1850000,
   heroImage: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=2000&q=85',
   heroVideo: 'https://assets.mixkit.co/videos/preview/mixkit-modern-luxury-house-exterior-41584-large.mp4',
-  tagline: 'Conheça todos os detalhes deste imóvel antes de agendar sua visita.',
-  tour3DUrl: 'https://my.matterport.com/show/?m=sample_3d_tour',
-  description: 'Excelente residência de 2 pavimentos localizada em condomínio fechado na Ponta Verde. O imóvel oferece ambientes integrados, excelente iluminação natural, espaço gourmet privativo com piscina e acabamentos de ótimo padrão de conservação.',
+  tagline: 'Uma experiência exclusiva desenvolvida para apresentar este imóvel em seus mínimos detalhes.',
+  description: 'Excelente residência de 2 pavimentos localizada em condomínio fechado de altíssimo prestígio na Ponta Verde. O imóvel oferece ambientes sociais integrados com pé-direito duplo, generosa insolação natural nascente, esquadrias do chão ao teto e espaço gourmet privativo integrado a deque molhado com piscina aquecida.',
   details: {
     builtAreaM2: 320,
-    landAreaM2: 450,
+    landAreaM2: 430,
     bedrooms: 4,
     suites: 3,
     bathrooms: 5,
@@ -31,14 +30,14 @@ export const PROPERTY_01: Property = {
     hasPool: true,
     hasGourmetArea: true,
     features: [
-      'Piscina Privativa com Aquecimento',
-      'Espaço Gourmet Integrado com Churrasqueira',
-      'Pé-Direito Duplo na Sala Principal',
-      'Armários Planejados na Cozinha e Dormitórios',
-      'Sistema de Energia Solar Fotovoltaica',
-      'Suíte Master com Varanda e Closet',
-      'Portaria 24h no Condomínio',
-      'Garagem Coberta para 3 Veículos'
+      'Piscina Aquecida em Pedra Hijau Vulcânica',
+      'Energia Solar Fotovoltaica com Usina Própria',
+      'Espaço Gourmet com Churrasqueira e Coifa Inox',
+      'Pé-Direito Duplo de 6.20m no Living Social',
+      'Segurança Armada 24h e Portaria com Biometria',
+      'Suíte Master com Closet Walk-in e Varanda',
+      'Automação de Iluminação, Irrigação e Ar-Condicionado',
+      '3 Vagas Cobertas para Veículos'
     ]
   },
   locationData: {
@@ -48,16 +47,16 @@ export const PROPERTY_01: Property = {
     isExactLocation: false,
     regionMapPrint: 'https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1600&q=80',
     nearbyPlaces: [
-      { id: 'm1', title: 'Praia da Ponta Verde', timeText: '03 min', category: 'beach' },
-      { id: 'm2', title: 'Parque Shopping Maceió', timeText: '05 min', category: 'shopping' },
-      { id: 'm3', title: 'Supermercado Premium', timeText: '04 min', category: 'supermarket' }
+      { id: 'm1', title: 'Praia da Ponta Verde', timeText: '05 min a pé (350m)', category: 'beach' },
+      { id: 'm2', title: 'Parque Shopping Maceió', timeText: '08 min de carro', category: 'shopping' },
+      { id: 'm3', title: 'Empório & Palato Gourmet 24h', timeText: '03 min de carro', category: 'supermarket' }
     ]
   },
   themeConfig: {
-    accentColor: '#d4af37',
-    backgroundColor: '#08090A',
-    surfaceColor: '#121316',
-    textColor: '#f4f4f5',
+    accentColor: '#C5A880',
+    backgroundColor: '#FBFBFC',
+    surfaceColor: '#FFFFFF',
+    textColor: '#111827',
     titleFontFamily: 'serif-playfair',
     bodyFontFamily: 'sans-jakarta',
     logoUrl: '/assets/logo-cardoso.png'
@@ -73,6 +72,18 @@ export const PROPERTY_01: Property = {
     'commercial',
     'contact'
   ],
+  // Sequência de Visita Guiada recomendada pela Cardoso Imóveis
+  guidedTourSequence: [
+    'r_entrada',
+    'r_sala_estar',
+    'r_cozinha',
+    'r_suite_master_root',
+    'r_sm_quarto',
+    'r_sm_closet',
+    'r_sm_banheiro',
+    'r_suite_01_root',
+    'r_piscina'
+  ],
   categories: [
     { id: 'area-social', name: 'ÁREA SOCIAL', order: 1 },
     { id: 'area-intima', name: 'ÁREA ÍNTIMA', order: 2 },
@@ -84,83 +95,77 @@ export const PROPERTY_01: Property = {
       id: 'r_entrada',
       categoryId: 'area-social',
       number: '01',
-      name: 'FACHADA & ENTRADA',
-      subtitle: 'Entrada imponente com paisagismo integrado e acesso privativo.',
+      name: 'FACHADA & ENTRADA IMPONENTE',
+      subtitle: 'Entrada com fechadura biométrica, jardim vertical automatizado e acesso privativo.',
+      description: 'Fachada contemporânea de 2 pavimentos com ripado de madeira nobre, paisagismo tropical integrado e iluminação cênica noturna.',
       areaM2: 24,
       type: 'room',
       coverImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_e1', type: 'image', url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80', title: 'Fachada Principal' },
-        { id: 'm_e2', type: 'image', url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80', title: 'Jardim de Entrada' }
+        { id: 'm_e1', type: 'image', url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80', title: 'Fachada Principal ao Entardecer' },
+        { id: 'm_e2', type: 'image', url: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80', title: 'Jardim de Entrada & Garagem' }
       ],
-      characteristics: ['Porta Pivotal de Madeira', 'Iluminação em LED', 'Jardim Frontal'],
+      characteristics: ['Porta Pivotal de Madeira Cumaru', 'Iluminação Cênica em LED', 'Jardim Tropical com Irrigação'],
       order: 1,
-      nextRoomId: 'r_sala_estar',
-      hotspots3D: [
-        { id: 'hs1', label: 'ENTRAR NA SALA DE ESTAR', targetRoomId: 'r_sala_estar', xPercent: 50, yPercent: 65, type: 'arrow' }
-      ]
+      nextRoomId: 'r_sala_estar'
     },
     {
       id: 'r_sala_estar',
       categoryId: 'area-social',
       number: '02',
       name: 'SALA DE ESTAR & JANTAR',
-      subtitle: 'Living amplo com pé-direito duplo e integração com o jardim.',
-      areaM2: 45,
+      subtitle: 'Living amplo de 65m² com pé-direito duplo de 6.20m e integração total.',
+      description: 'Salão social sem pilares aparentes com envidraçamento piso-teto, revestimento em porcelanato polido 120x120cm e integração direta com a varanda e o jardim.',
+      areaM2: 65,
       type: 'room',
       coverImage: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_s1', type: 'panorama', url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80', title: 'Navegação 360° Sala de Estar' },
-        { id: 'm_s2', type: 'image', url: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=80', title: 'Mesa de Jantar 8 Lugares' },
-        { id: 'm_s3', type: 'video', url: 'https://assets.mixkit.co/videos/preview/mixkit-living-room-with-large-windows-and-modern-decor-41585-large.mp4', title: 'Vídeo do Living' }
+        { id: 'm_s1', type: 'image', url: 'https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1600&q=80', title: 'Living Social Integrado' },
+        { id: 'm_s2', type: 'image', url: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=80', title: 'Mesa de Jantar para 8 Lugares' },
+        { id: 'm_s3', type: 'video', url: 'https://assets.mixkit.co/videos/preview/mixkit-living-room-with-large-windows-and-modern-decor-41585-large.mp4', title: 'Vídeo do Living Social' }
       ],
-      characteristics: ['Pé-direito Duplo (6m)', 'Piso Porcelanato 120x120cm', 'Integração Externa'],
+      characteristics: ['Pé-direito Duplo de 6.20m', 'Porcelanato Polido 120x120cm', 'Integração com Jardim Externo'],
       order: 2,
       previousRoomId: 'r_entrada',
-      nextRoomId: 'r_cozinha',
-      hotspots3D: [
-        { id: 'hs2_1', label: 'IR PARA A COZINHA', targetRoomId: 'r_cozinha', xPercent: 78, yPercent: 55, type: 'door' },
-        { id: 'hs2_2', label: 'ACESSAR PISCINA', targetRoomId: 'r_piscina', xPercent: 25, yPercent: 60, type: 'arrow' }
-      ]
+      nextRoomId: 'r_cozinha'
     },
     {
       id: 'r_cozinha',
       categoryId: 'area-social',
       number: '03',
-      name: 'COZINHA PLANEJADA',
-      subtitle: 'Cozinha moderna com ilha em granito e móveis sob medida.',
+      name: 'COZINHA GOURMET & ILHA',
+      subtitle: 'Cozinha moderna com ilha central em pedra de quartzo e móveis sob medida.',
+      description: 'Espaço gourmet funcional com bancada em ilha de quartzo branco, eletros embutidos de alta linha, coifa com exaustão externa e marcenaria premium com amortecimento.',
       areaM2: 26,
       type: 'room',
       coverImage: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_c1', type: 'image', url: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1600&q=80', title: 'Ilha em Granito' }
+        { id: 'm_c1', type: 'image', url: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?auto=format&fit=crop&w=1600&q=80', title: 'Ilha Central de Quartzo' }
       ],
-      characteristics: ['Ilha Central em Granito', 'Armários Embutidos Evviva', 'Bancada de Lanche'],
+      characteristics: ['Bancada em Quartzo Branco', 'Marcenaria Florense sob Medida', 'Cooktop & Coifa de Inox'],
       order: 3,
       previousRoomId: 'r_sala_estar',
-      nextRoomId: 'r_suite_master_root',
-      hotspots3D: [
-        { id: 'hs3_1', label: 'VOLTAR PARA A SALA', targetRoomId: 'r_sala_estar', xPercent: 30, yPercent: 65, type: 'arrow' }
-      ]
+      nextRoomId: 'r_suite_master_root'
     },
 
-    // --- ÁREA ÍNTIMA (Com Hierarquia Pai/Filho: Suíte Master -> Quarto, Closet, Banheiro) ---
+    // --- ÁREA ÍNTIMA (Suíte Master -> Quarto, Closet, Banheiro) ---
     {
       id: 'r_suite_master_root',
       categoryId: 'area-intima',
       number: '04',
       name: 'SUÍTE MASTER',
-      subtitle: 'Conjunto privativo master composto por Quarto, Closet e Banheiro.',
+      subtitle: 'Refúgio privativo de 48m² composto por Quarto, Closet Walk-in e Banheiro Duplo.',
+      description: 'Conjunto master de alto padrão no pavimento superior com varanda privativa voltada para a brisa nascente.',
       areaM2: 48,
       type: 'suite',
       coverImage: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_sm_root', type: 'image', url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80', title: 'Suíte Master Geral' }
+        { id: 'm_sm_root', type: 'image', url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80', title: 'Visão Geral da Suíte Master' }
       ],
-      characteristics: ['Ambiente Privativo Completo', 'Closet Embutido', 'Banheiro Duplo'],
+      characteristics: ['Conjunto Privativo Completo', 'Closet Walk-in Duplo', 'Banheiro com Bancada Dupla'],
       order: 4,
       previousRoomId: 'r_cozinha',
-      nextRoomId: 'r_suite_01_root'
+      nextRoomId: 'r_sm_quarto'
     },
     {
       id: 'r_sm_quarto',
@@ -168,16 +173,18 @@ export const PROPERTY_01: Property = {
       parentId: 'r_suite_master_root',
       number: '04.1',
       name: 'QUARTO SUÍTE MASTER',
-      subtitle: 'Dormitório amplo com varanda privativa e ar-condicionado inverter.',
+      subtitle: 'Dormitório amplo com varanda privativa e painel de cabeceira em madeira nobre.',
+      description: 'Ambiente aconchegante com espaço para cama King Size, cabeceira estofada com marcenaria em madeira cumaru, cortinas automatizadas e porta de acesso à varanda.',
       areaM2: 24,
       type: 'subroom',
       coverImage: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_sm_q1', type: 'panorama', url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80', title: '360° Quarto Master' },
-        { id: 'm_sm_q2', type: 'image', url: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1600&q=80', title: 'Cama King & Varanda' }
+        { id: 'm_sm_q1', type: 'image', url: 'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80', title: 'Quarto Master com Varanda' },
+        { id: 'm_sm_q2', type: 'image', url: 'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?auto=format&fit=crop&w=1600&q=80', title: 'Perspectiva da Cama King' }
       ],
-      characteristics: ['Cama King Size', 'Varanda Privativa', 'Ar-Condicionado Inverter'],
+      characteristics: ['Cama King Size', 'Varanda Privativa Voltada ao Nascente', 'Ar-Condicionado Inverter Embutido'],
       order: 41,
+      previousRoomId: 'r_suite_master_root',
       nextRoomId: 'r_sm_closet'
     },
     {
@@ -186,14 +193,15 @@ export const PROPERTY_01: Property = {
       parentId: 'r_suite_master_root',
       number: '04.2',
       name: 'CLOSET MASTER',
-      subtitle: 'Espaço reservado para vestuário com iluminação interna e espelhos.',
+      subtitle: 'Closet walk-in com armários embutidos em L, iluminação interna em LED e espelhos.',
+      description: 'Espaço funcional com nichos para calçados, gaveteiros com trava e iluminação indireta que destaca as peças.',
       areaM2: 12,
       type: 'subroom',
       coverImage: 'https://images.unsplash.com/photo-1558882224-dda166733046?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_sm_cl1', type: 'image', url: 'https://images.unsplash.com/photo-1558882224-dda166733046?auto=format&fit=crop&w=1600&q=80', title: 'Closet Embutido' }
+        { id: 'm_sm_cl1', type: 'image', url: 'https://images.unsplash.com/photo-1558882224-dda166733046?auto=format&fit=crop&w=1600&q=80', title: 'Closet Walk-in' }
       ],
-      characteristics: ['Armários Embutidos em L', 'Espelhos de Corpo Inteiro', 'Iluminação em LED'],
+      characteristics: ['Armários Embutidos em L', 'Espelhos de Corpo Inteiro', 'Iluminação LED Sensorizada'],
       order: 42,
       previousRoomId: 'r_sm_quarto',
       nextRoomId: 'r_sm_banheiro'
@@ -204,69 +212,38 @@ export const PROPERTY_01: Property = {
       parentId: 'r_suite_master_root',
       number: '04.3',
       name: 'BANHEIRO MASTER',
-      subtitle: 'Banheiro privativo com bancada dupla e chuveiro de teto.',
+      subtitle: 'Banheiro privativo com bancada dupla esculpida em mármore e chuveiro de teto.',
+      description: 'Acabamento requintado com cubas duplas esculpidas em mármore branco, espelhos bisotados, nicho iluminado no box e duchas de teto pressurizadas.',
       areaM2: 12,
       type: 'subroom',
       coverImage: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_sm_b1', type: 'image', url: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=80', title: 'Banheiro Master' }
+        { id: 'm_sm_b1', type: 'image', url: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?auto=format&fit=crop&w=1600&q=80', title: 'Banheiro Master com Bancada Dupla' }
       ],
-      characteristics: ['Bancada Dupla em Mármore', 'Chuveiro de Teto', 'Nicho Embutido'],
+      characteristics: ['Bancada Dupla em Mármore Esculpido', 'Ducha de Teto Pressurizada', 'Nicho Embutido com LED'],
       order: 43,
-      previousRoomId: 'r_sm_closet'
+      previousRoomId: 'r_sm_closet',
+      nextRoomId: 'r_suite_01_root'
     },
 
-    // --- SUÍTE 01 (Hierarquia Pai/Filho: Quarto -> Banheiro) ---
+    // --- SUÍTE 01 (Quarto -> Banheiro) ---
     {
       id: 'r_suite_01_root',
       categoryId: 'area-intima',
       number: '05',
       name: 'SUÍTE 01',
-      subtitle: 'Suíte aconchegante para hóspedes ou família.',
+      subtitle: 'Suíte aconchegante para hóspedes com armários embutidos.',
+      description: 'Dormitório bem iluminado no pavimento superior com persiana automatizada blackout.',
       areaM2: 28,
       type: 'suite',
       coverImage: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1200&q=80',
       media: [
         { id: 'm_s01_root', type: 'image', url: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80', title: 'Suíte 01 Geral' }
       ],
-      characteristics: ['Dormitório Privativo', 'Banheiro Exclusivo'],
+      characteristics: ['Dormitório Privativo', 'Banheiro Exclusivo', 'Persiana Automatizada'],
       order: 5,
-      previousRoomId: 'r_suite_master_root',
+      previousRoomId: 'r_sm_banheiro',
       nextRoomId: 'r_piscina'
-    },
-    {
-      id: 'r_s01_quarto',
-      categoryId: 'area-intima',
-      parentId: 'r_suite_01_root',
-      number: '05.1',
-      name: 'QUARTO SUÍTE 01',
-      subtitle: 'Quarto bem ventilado com armários sob medida.',
-      areaM2: 20,
-      type: 'subroom',
-      coverImage: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1200&q=80',
-      media: [
-        { id: 'm_s01_q1', type: 'image', url: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1600&q=80', title: 'Quarto Suíte 01' }
-      ],
-      characteristics: ['Janela de Alumínio Anodizado', 'Armários Evviva'],
-      order: 51,
-      nextRoomId: 'r_s01_banheiro'
-    },
-    {
-      id: 'r_s01_banheiro',
-      categoryId: 'area-intima',
-      parentId: 'r_suite_01_root',
-      number: '05.2',
-      name: 'BANHEIRO SUÍTE 01',
-      subtitle: 'Banheiro privativo da Suíte 01.',
-      areaM2: 8,
-      type: 'subroom',
-      coverImage: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1200&q=80',
-      media: [
-        { id: 'm_s01_b1', type: 'image', url: 'https://images.unsplash.com/photo-1552321554-5fefe8c9ef14?auto=format&fit=crop&w=1600&q=80', title: 'Banheiro Suíte 01' }
-      ],
-      characteristics: ['Box Blindex', 'Bancada em Granito'],
-      order: 52,
-      previousRoomId: 'r_s01_quarto'
     },
 
     // --- ÁREA EXTERNA ---
@@ -275,20 +252,18 @@ export const PROPERTY_01: Property = {
       categoryId: 'area-externa',
       number: '06',
       name: 'ÁREA EXTERNA & PISCINA',
-      subtitle: 'Varanda gourmet completa com churrasqueira e piscina privativa.',
+      subtitle: 'Varanda gourmet com churrasqueira em inox e piscina aquecida em pedra Hijau.',
+      description: 'Espaço de lazer privativo com deque em madeira nobre, piscina aquecida por bomba de calor revestida em pedra vulcânica verde e solarium.',
       areaM2: 55,
       type: 'external',
       coverImage: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1200&q=80',
       media: [
-        { id: 'm_p1', type: 'panorama', url: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=80', title: '360° Piscina & Deck' },
-        { id: 'm_p2', type: 'video', url: 'https://assets.mixkit.co/videos/preview/mixkit-swimming-pool-in-a-luxury-house-41587-large.mp4', title: 'Vídeo da Piscina' }
+        { id: 'm_p1', type: 'image', url: 'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=80', title: 'Piscina em Pedra Hijau com Aquecimento' },
+        { id: 'm_p2', type: 'video', url: 'https://assets.mixkit.co/videos/preview/mixkit-swimming-pool-in-a-luxury-house-41587-large.mp4', title: 'Vídeo da Área Externa' }
       ],
-      characteristics: ['Piscina Aquecida', 'Deck de Madeira', 'Churrasqueira em Inox'],
+      characteristics: ['Piscina Aquecida em Pedra Hijau', 'Deck em Madeira Cumaru', 'Varanda Gourmet com Churrasqueira'],
       order: 6,
-      previousRoomId: 'r_suite_01_root',
-      hotspots3D: [
-        { id: 'hs5_1', label: 'ENTRAR NA SALA DE ESTAR', targetRoomId: 'r_sala_estar', xPercent: 70, yPercent: 50, type: 'arrow' }
-      ]
+      previousRoomId: 'r_suite_01_root'
     }
   ],
   galleryPhotos: [
@@ -299,7 +274,6 @@ export const PROPERTY_01: Property = {
     'https://images.unsplash.com/photo-1616594039964-ae9021a400a0?auto=format&fit=crop&w=1600&q=80',
     'https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?auto=format&fit=crop&w=1600&q=80'
   ],
-  floorPlanImage: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80',
   consultantName: 'Douglas Cardoso',
   consultantTitle: 'CEO - CRECI 73.567',
   consultantImage: '/assets/ceo-card.png',
@@ -319,8 +293,8 @@ export const PROPERTY_02: Property = {
   price: 'R$ 850.000',
   rawPriceNumber: 850000,
   heroImage: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=2000&q=85',
-  tagline: 'Conheça todos os detalhes deste apartamento em localização privilegiada.',
-  description: 'Excelente apartamento de 3 dormitórios (2 suítes) a poucas quadras da praia da Jatiúca. Imóvel nascente, andar alto, altamente ventilado, com varanda gourmet, móveis planejados em todos os cômodos e 2 vagas de garagem livres.',
+  tagline: 'Conheça todos os detalhes deste apartamento a poucas quadras da praia.',
+  description: 'Excelente apartamento de 3 dormitórios (2 suítes) na Jatiúca. Imóvel nascente, andar alto, altamente ventilado, com varanda gourmet, móveis planejados em todos os cômodos e 2 vagas de garagem livres.',
   details: {
     builtAreaM2: 140,
     bedrooms: 3,
@@ -332,7 +306,7 @@ export const PROPERTY_02: Property = {
     propertyType: 'Apartamento Residencial',
     furnishedStatus: 'Móveis Planejados Inclusos',
     constructionYear: '2021',
-    hasPool: false, // NOTE: NO PRIVATE POOL HERE!
+    hasPool: false,
     hasGourmetArea: true,
     features: [
       'Andar Alto e Posição Nascente (Muito Ventilado)',
@@ -355,14 +329,20 @@ export const PROPERTY_02: Property = {
     ]
   },
   themeConfig: {
-    accentColor: '#d4af37',
-    backgroundColor: '#08090A',
-    surfaceColor: '#121316',
-    textColor: '#f4f4f5',
+    accentColor: '#C5A880',
+    backgroundColor: '#FBFBFC',
+    surfaceColor: '#FFFFFF',
+    textColor: '#111827',
     titleFontFamily: 'serif-playfair',
     bodyFontFamily: 'sans-jakarta',
     logoUrl: '/assets/logo-cardoso.png'
   },
+  guidedTourSequence: [
+    'apt_r1',
+    'apt_r2_root',
+    'apt_r2_quarto',
+    'apt_r2_banheiro'
+  ],
   categories: [
     { id: 'area-social', name: 'ÁREA SOCIAL', order: 1 },
     { id: 'area-intima', name: 'ÁREA ÍNTIMA', order: 2 }
@@ -374,6 +354,7 @@ export const PROPERTY_02: Property = {
       number: '01',
       name: 'SALA & VARANDA GOURMET',
       subtitle: 'Living para 2 ambientes integrado à varanda com fechamento em vidro.',
+      description: 'Salão social bem iluminado com piso em porcelanato polido e integração total com a varanda gourmet.',
       areaM2: 38,
       type: 'room',
       coverImage: 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=1200&q=80',
@@ -390,6 +371,7 @@ export const PROPERTY_02: Property = {
       number: '02',
       name: 'SUÍTE PRINCIPAL',
       subtitle: 'Dormitório amplo com roupeiro sob medida.',
+      description: 'Suíte silenciosa com excelente ventilação natural nascente.',
       areaM2: 22,
       type: 'suite',
       coverImage: 'https://images.unsplash.com/photo-1598928506311-c55ded91a20c?auto=format&fit=crop&w=1200&q=80',
@@ -398,7 +380,8 @@ export const PROPERTY_02: Property = {
       ],
       characteristics: ['Armários Embutidos', 'Ar-Condicionado Inverter'],
       order: 2,
-      previousRoomId: 'apt_r1'
+      previousRoomId: 'apt_r1',
+      nextRoomId: 'apt_r2_quarto'
     },
     {
       id: 'apt_r2_quarto',
@@ -415,6 +398,7 @@ export const PROPERTY_02: Property = {
       ],
       characteristics: ['Cama de Casal', 'Painel de Madeira'],
       order: 21,
+      previousRoomId: 'apt_r2_root',
       nextRoomId: 'apt_r2_banheiro'
     },
     {

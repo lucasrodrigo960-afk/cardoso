@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
 import {
-  X, Save, RotateCcw, Download, Upload, Palette, Navigation,
+  X, Save, RotateCcw, Download, Upload, Palette,
   Image, Map, DollarSign, List, Move
 } from 'lucide-react';
 import type { Property } from '../types';
-import { HotspotEditorModal } from './HotspotEditorModal';
 import { SectionReorderModal } from './SectionReorderModal';
 
 interface AdminPanelManagerProps {
@@ -21,8 +20,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
   onClose,
 }) => {
   const [formData, setFormData] = useState<Property>(currentTour);
-  const [activeTab, setActiveTab] = useState<'theme' | 'general' | 'rooms3d' | 'gallery' | 'location' | 'features'>('theme');
-  const [showHotspotModal, setShowHotspotModal] = useState(false);
+  const [activeTab, setActiveTab] = useState<'theme' | 'general' | 'rooms' | 'gallery' | 'location' | 'features'>('theme');
   const [showReorderModal, setShowReorderModal] = useState(false);
   const [newGalleryPhotoUrl, setNewGalleryPhotoUrl] = useState('');
   const [newFeatureText, setNewFeatureText] = useState('');
@@ -52,10 +50,10 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
     setFormData((prev) => ({
       ...prev,
       themeConfig: {
-        accentColor: '#d4af37',
-        backgroundColor: '#08090A',
-        surfaceColor: '#121316',
-        textColor: '#f4f4f5',
+        accentColor: '#C5A880',
+        backgroundColor: '#FBFBFC',
+        surfaceColor: '#FFFFFF',
+        textColor: '#111827',
         titleFontFamily: 'serif-playfair',
         bodyFontFamily: 'sans-jakarta',
         ...prev.themeConfig,
@@ -136,20 +134,20 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-6 text-white overflow-y-auto">
-      <div className="relative w-full max-w-5xl bg-[#121316] rounded-3xl border border-white/15 shadow-2xl flex flex-col max-h-[96vh] overflow-hidden">
+    <div className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-3 sm:p-6 text-[#111827] overflow-y-auto">
+      <div className="relative w-full max-w-5xl bg-[#FFFFFF] rounded-3xl border border-[#E5E7EB] shadow-2xl flex flex-col max-h-[96vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#08090A]">
+        <div className="flex items-center justify-between px-8 py-5 border-b border-[#E5E7EB] bg-[#FBFBFC]">
           <div className="flex items-center gap-3">
-            <span className="text-amber-400 font-mono text-xs tracking-widest uppercase">PAINEL ADMIN 100% EDITÁVEL</span>
-            <span className="text-zinc-600">|</span>
-            <h2 className="text-xl font-serif text-white">{formData.propertyName}</h2>
+            <span className="text-[#C5A880] font-mono text-xs tracking-widest uppercase font-semibold">PAINEL ADMIN 100% EDITÁVEL</span>
+            <span className="text-zinc-300">|</span>
+            <h2 className="text-xl font-serif text-[#111827]">{formData.propertyName}</h2>
           </div>
 
           <div className="flex items-center gap-3">
             <button
               onClick={() => setShowReorderModal(true)}
-              className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-xs text-amber-300 font-mono uppercase tracking-wider flex items-center gap-2"
+              className="px-3.5 py-2 rounded-xl bg-[#F3F4F6] hover:bg-[#E5E7EB] border border-[#E5E7EB] text-xs text-[#374151] font-mono uppercase tracking-wider flex items-center gap-2"
             >
               <Move className="w-3.5 h-3.5" />
               <span>Ordem das Seções</span>
@@ -157,24 +155,24 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
 
             <button
               onClick={handleSave}
-              className="btn-gold-warm px-6 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer shadow-lg"
+              className="btn-gold-warm px-6 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer shadow-lg font-semibold"
             >
               <Save className="w-4 h-4" />
               <span>SALVAR TUDO</span>
             </button>
 
-            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white">
+            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-[#111827]">
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 px-8 py-3 bg-[#08090A] border-b border-white/10 overflow-x-auto">
+        <div className="flex items-center gap-2 px-8 py-3 bg-[#FBFBFC] border-b border-[#E5E7EB] overflow-x-auto">
           {[
             { id: 'theme', label: 'Cores, Fontes & Logos', icon: Palette },
             { id: 'general', label: 'Dados & Comercial', icon: DollarSign },
-            { id: 'rooms3d', label: 'Tour 3D Nativo & Hotspots', icon: Navigation },
+            { id: 'rooms', label: 'Ambientes do Imóvel', icon: Image },
             { id: 'gallery', label: 'Galeria de Fotos', icon: Image },
             { id: 'location', label: 'Planta & Localização', icon: Map },
             { id: 'features', label: 'Ficha Técnica & Atributos', icon: List },
@@ -186,8 +184,8 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                 onClick={() => setActiveTab(tab.id as any)}
                 className={`px-4 py-2 rounded-xl text-xs font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer flex-shrink-0 ${
                   activeTab === tab.id
-                    ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
-                    : 'bg-white/5 hover:bg-white/10 text-zinc-400'
+                    ? 'bg-[#C5A880] text-[#111827] font-semibold shadow-sm'
+                    : 'bg-[#F3F4F6] hover:bg-[#E5E7EB] text-[#4B5563]'
                 }`}
               >
                 <IconComp className="w-3.5 h-3.5" />
@@ -198,69 +196,43 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
         </div>
 
         {/* Content Body */}
-        <div className="p-8 overflow-y-auto max-h-[calc(96vh-180px)] space-y-6">
+        <div className="p-8 overflow-y-auto max-h-[calc(96vh-180px)] space-y-6 bg-[#FFFFFF]">
           {/* TAB 1: CORES, FONTES & LOGOS */}
           {activeTab === 'theme' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">
+              <h3 className="text-lg font-serif text-[#111827] border-b border-[#E5E7EB] pb-2">
                 Estilo Visual, Cores & Tipografia
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Cor de Destaque / Acento (Hex):</label>
+                  <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">Cor de Destaque / Acento (Hex):</label>
                   <div className="flex items-center gap-3">
                     <input
                       type="color"
-                      value={formData.themeConfig?.accentColor || '#d4af37'}
+                      value={formData.themeConfig?.accentColor || '#C5A880'}
                       onChange={(e) => handleThemeChange('accentColor', e.target.value)}
-                      className="w-12 h-10 bg-transparent cursor-pointer rounded-lg border border-white/20"
+                      className="w-12 h-10 bg-transparent cursor-pointer rounded-lg border border-[#E5E7EB]"
                     />
                     <input
                       type="text"
-                      value={formData.themeConfig?.accentColor || '#d4af37'}
+                      value={formData.themeConfig?.accentColor || '#C5A880'}
                       onChange={(e) => handleThemeChange('accentColor', e.target.value)}
-                      className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                      className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Tom do Fundo Principal:</label>
-                  <select
-                    value={formData.themeConfig?.backgroundColor || '#08090A'}
-                    onChange={(e) => handleThemeChange('backgroundColor', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
-                  >
-                    <option value="#08090A">Preto Obsidian (#08090A)</option>
-                    <option value="#08090a">Preto Grafite Escuro (#08090a)</option>
-                    <option value="#0a0d14">Azul Marinho Noturno (#0a0d14)</option>
-                  </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Fonte dos Títulos:</label>
+                  <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">Fonte dos Títulos:</label>
                   <select
                     value={formData.themeConfig?.titleFontFamily || 'serif-playfair'}
                     onChange={(e) => handleThemeChange('titleFontFamily', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
                   >
                     <option value="serif-playfair">Playfair Display (Serif Clássica Elegante)</option>
-                    <option value="serif-cinzel">Cinzel (Serif Editorial de Luxo)</option>
                     <option value="sans-jakarta">Plus Jakarta Sans (Sans-Serif Moderna Limpa)</option>
-                    <option value="mono">Monoespaçada Arquitetônica</option>
                   </select>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">URL da Logo Customizada:</label>
-                  <input
-                    type="text"
-                    value={formData.themeConfig?.logoUrl || ''}
-                    onChange={(e) => handleThemeChange('logoUrl', e.target.value)}
-                    placeholder="/assets/logo-cardoso.png ou URL da imagem"
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
-                  />
                 </div>
               </div>
             </div>
@@ -269,120 +241,83 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
           {/* TAB 2: DADOS & COMERCIAL */}
           {activeTab === 'general' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">
+              <h3 className="text-lg font-serif text-[#111827] border-b border-[#E5E7EB] pb-2">
                 Informações Fatuais & Preço Comercial
               </h3>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Nome do Imóvel:</label>
+                  <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">Nome do Imóvel:</label>
                   <input
                     type="text"
                     value={formData.propertyName}
                     onChange={(e) => handleTextChange('propertyName', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Bairro e Cidade/UF:</label>
+                  <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">Bairro e Cidade/UF:</label>
                   <input
                     type="text"
                     value={formData.location}
                     onChange={(e) => handleTextChange('location', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Valor de Venda (Preço):</label>
+                  <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">Valor de Venda (Preço):</label>
                   <input
                     type="text"
                     value={formData.price}
                     onChange={(e) => handleTextChange('price', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white font-serif text-lg text-amber-300"
+                    className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827] font-serif text-lg font-semibold"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Taxa de Condomínio:</label>
+                  <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">Taxa de Condomínio:</label>
                   <input
                     type="text"
                     value={formData.details.condoFee || ''}
                     onChange={(e) => handleDetailChange('condoFee', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">IPTU Anual:</label>
-                  <input
-                    type="text"
-                    value={formData.details.iptu || ''}
-                    onChange={(e) => handleDetailChange('iptu', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Frase de Chamada (Tagline):</label>
-                  <input
-                    type="text"
-                    value={formData.tagline || ''}
-                    onChange={(e) => handleTextChange('tagline', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white font-serif italic"
+                    className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Descrição Factual do Imóvel:</label>
+                <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">Descrição Factual do Imóvel:</label>
                 <textarea
                   rows={4}
                   value={formData.description}
                   onChange={(e) => handleTextChange('description', e.target.value)}
-                  className="w-full bg-[#08090A] border border-white/15 rounded-xl p-4 text-xs text-white leading-relaxed"
+                  className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl p-4 text-xs text-[#111827] leading-relaxed"
                 />
               </div>
             </div>
           )}
 
-          {/* TAB 3: TOUR 3D NATIVO & HOTSPOTS */}
-          {activeTab === 'rooms3d' && (
+          {/* TAB 3: AMBIENTES */}
+          {activeTab === 'rooms' && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                <div>
-                  <h3 className="text-lg font-serif text-white">Cômodos & Hotspots 3D Nativos</h3>
-                  <p className="text-xs text-zinc-400 font-light">
-                    Navegação interativa tridimensional por setas e pontos de passagem.
-                  </p>
-                </div>
+              <h3 className="text-lg font-serif text-[#111827] border-b border-[#E5E7EB] pb-2">
+                Ambientes Cadastrados ({formData.rooms.length})
+              </h3>
 
-                <button
-                  onClick={() => setShowHotspotModal(true)}
-                  className="btn-gold-warm px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 font-bold cursor-pointer"
-                >
-                  <Navigation className="w-4 h-4" />
-                  <span>ABRIR EDITOR VISUAL DE SETAS 3D</span>
-                </button>
-              </div>
-
-              {/* List of Rooms */}
-              <div className="space-y-4">
+              <div className="space-y-3">
                 {formData.rooms.map((room) => (
                   <div
                     key={room.id}
-                    className="p-5 rounded-2xl bg-[#08090A] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                    className="p-4 rounded-xl bg-[#FBFBFC] border border-[#E5E7EB] flex items-center justify-between"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-16 h-12 rounded-xl overflow-hidden bg-black flex-shrink-0 border border-white/10">
-                        <img src={room.coverImage} alt={room.name} className="w-full h-full object-cover" />
-                      </div>
+                      <img src={room.coverImage} alt="" className="w-14 h-10 object-cover rounded-lg" />
                       <div>
-                        <div className="text-xs font-mono text-amber-400">{room.number} {room.areaM2 ? `· ${room.areaM2} m²` : ''}</div>
-                        <div className="text-base font-serif text-white">{room.name}</div>
-                        <div className="text-[11px] text-zinc-400">
-                          {room.hotspots3D?.length || 0} setas de transição configuradas
+                        <div className="font-serif text-sm font-medium text-[#111827]">{room.name}</div>
+                        <div className="text-[11px] font-mono text-[#687082]">
+                          {room.number} · {room.areaM2 ? `${room.areaM2} m²` : 'Sem metragem especificada'}
                         </div>
                       </div>
                     </div>
@@ -392,38 +327,36 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
             </div>
           )}
 
-          {/* TAB 4: GALERIA DE FOTOS */}
+          {/* TAB 4: GALERIA */}
           {activeTab === 'gallery' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">
-                Gerenciador da Galeria Fotográfica
+              <h3 className="text-lg font-serif text-[#111827] border-b border-[#E5E7EB] pb-2">
+                Galeria Fotográfica
               </h3>
 
-              {/* Add Photo Form */}
               <div className="flex items-center gap-3">
                 <input
                   type="text"
-                  placeholder="URL da nova fotografia (https://...)"
+                  placeholder="URL da nova foto"
                   value={newGalleryPhotoUrl}
                   onChange={(e) => setNewGalleryPhotoUrl(e.target.value)}
-                  className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
                 />
                 <button
                   onClick={handleAddGalleryPhoto}
-                  className="btn-gold-warm px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex-shrink-0 font-bold"
+                  className="btn-gold-warm px-5 py-2.5 rounded-xl text-xs uppercase font-semibold flex-shrink-0"
                 >
-                  Adicionar Foto
+                  Adicionar
                 </button>
               </div>
 
-              {/* Photos Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {formData.galleryPhotos.map((photo, idx) => (
-                  <div key={idx} className="relative group h-32 rounded-xl overflow-hidden border border-white/15 bg-black">
+                  <div key={idx} className="relative group h-28 rounded-xl overflow-hidden bg-[#F3F4F6] border border-[#E5E7EB]">
                     <img src={photo} alt="" className="w-full h-full object-cover" />
                     <button
                       onClick={() => handleDeleteGalleryPhoto(idx)}
-                      className="absolute top-2 right-2 p-1.5 rounded-lg bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="absolute top-2 right-2 p-1 rounded bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
@@ -433,45 +366,43 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
             </div>
           )}
 
-          {/* TAB 5: PLANTA & LOCALIZAÇÃO */}
+          {/* TAB 5: LOCALIZAÇÃO */}
           {activeTab === 'location' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">
-                Mapa de Localização da Região
+              <h3 className="text-lg font-serif text-[#111827] border-b border-[#E5E7EB] pb-2">
+                Mapa da Região
               </h3>
 
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">URL da Imagem do Mapa Aéreo:</label>
-                  <input
-                    type="text"
-                    value={formData.locationData?.regionMapPrint || ''}
-                    onChange={(e) => handleLocationChange('regionMapPrint', e.target.value)}
-                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
-                  />
-                </div>
+              <div>
+                <label className="block text-xs font-mono text-[#C5A880] uppercase mb-2">URL do Mapa Aéreo:</label>
+                <input
+                  type="text"
+                  value={formData.locationData?.regionMapPrint || ''}
+                  onChange={(e) => handleLocationChange('regionMapPrint', e.target.value)}
+                  className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
+                />
               </div>
             </div>
           )}
 
-          {/* TAB 6: FICHA TÉCNICA & DIFERENCIAIS */}
+          {/* TAB 6: DIFERENCIAIS */}
           {activeTab === 'features' && (
             <div className="space-y-6">
-              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">
-                Diferenciais Reais do Imóvel
+              <h3 className="text-lg font-serif text-[#111827] border-b border-[#E5E7EB] pb-2">
+                Diferenciais do Imóvel
               </h3>
 
               <div className="flex items-center gap-3">
                 <input
                   type="text"
-                  placeholder="Novo diferencial (Ex: Varanda com Churrasqueira)"
+                  placeholder="Novo diferencial"
                   value={newFeatureText}
                   onChange={(e) => setNewFeatureText(e.target.value)}
-                  className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className="w-full bg-[#FBFBFC] border border-[#E5E7EB] rounded-xl px-4 py-2.5 text-xs text-[#111827]"
                 />
                 <button
                   onClick={handleAddFeature}
-                  className="btn-gold-warm px-5 py-2.5 rounded-xl text-xs uppercase tracking-widest flex-shrink-0 font-bold"
+                  className="btn-gold-warm px-5 py-2.5 rounded-xl text-xs uppercase font-semibold flex-shrink-0"
                 >
                   Adicionar
                 </button>
@@ -479,12 +410,9 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
 
               <div className="space-y-2">
                 {formData.details.features.map((feat, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-[#08090A] border border-white/10 flex items-center justify-between text-xs text-zinc-200">
+                  <div key={idx} className="p-3 rounded-xl bg-[#FBFBFC] border border-[#E5E7EB] flex items-center justify-between text-xs text-[#374151]">
                     <span>{feat}</span>
-                    <button
-                      onClick={() => handleDeleteFeature(idx)}
-                      className="text-red-400 hover:text-red-300"
-                    >
+                    <button onClick={() => handleDeleteFeature(idx)} className="text-red-600 hover:text-red-700">
                       <X className="w-4 h-4" />
                     </button>
                   </div>
@@ -494,44 +422,29 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
           )}
         </div>
 
-        {/* Footer JSON Import / Export & Reset */}
-        <div className="flex flex-wrap items-center justify-between px-8 py-4 border-t border-white/10 bg-[#08090A] text-xs">
+        {/* Footer */}
+        <div className="flex flex-wrap items-center justify-between px-8 py-4 border-t border-[#E5E7EB] bg-[#FBFBFC] text-xs">
           <div className="flex items-center gap-4">
-            <button
-              onClick={handleExportJSON}
-              className="flex items-center gap-2 text-zinc-300 hover:text-amber-400 font-mono transition-colors"
-            >
+            <button onClick={handleExportJSON} className="flex items-center gap-2 text-[#4B5563] hover:text-[#111827] font-mono">
               <Download className="w-4 h-4" />
               <span>Exportar JSON</span>
             </button>
 
-            <label className="flex items-center gap-2 text-zinc-300 hover:text-amber-400 font-mono transition-colors cursor-pointer">
+            <label className="flex items-center gap-2 text-[#4B5563] hover:text-[#111827] font-mono cursor-pointer">
               <Upload className="w-4 h-4" />
               <span>Importar JSON</span>
               <input type="file" accept=".json" onChange={handleImportJSON} className="hidden" />
             </label>
           </div>
 
-          <button
-            onClick={onResetDemo}
-            className="flex items-center gap-2 text-red-400 hover:text-red-300 font-mono"
-          >
+          <button onClick={onResetDemo} className="flex items-center gap-2 text-red-600 hover:text-red-700 font-mono">
             <RotateCcw className="w-4 h-4" />
             <span>Restaurar Padrão Demo</span>
           </button>
         </div>
       </div>
 
-      {/* Hotspot Editor Modal Overlay */}
-      {showHotspotModal && (
-        <HotspotEditorModal
-          tour={formData}
-          onSaveTour={(updated) => setFormData(updated)}
-          onClose={() => setShowHotspotModal(false)}
-        />
-      )}
-
-      {/* Section Reorder Modal Overlay */}
+      {/* Section Reorder Modal */}
       {showReorderModal && (
         <SectionReorderModal
           tour={formData}

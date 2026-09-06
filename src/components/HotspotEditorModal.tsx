@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { X, Plus, Trash2, MoveUp, Save } from 'lucide-react';
-import type { Tour, Hotspot3D } from '../types';
+import type { Property, Hotspot3D } from '../types';
 
 interface HotspotEditorModalProps {
-  tour: Tour;
-  onSaveTour: (updatedTour: Tour) => void;
+  tour: Property;
+  onSaveTour: (updatedTour: Property) => void;
   onClose: () => void;
 }
 
@@ -16,7 +16,7 @@ export const HotspotEditorModal: React.FC<HotspotEditorModalProps> = ({
   const [selectedRoomId, setSelectedRoomId] = useState<string>(
     tour.rooms[0]?.id || ''
   );
-  const [currentTour, setCurrentTour] = useState<Tour>(tour);
+  const [currentTour, setCurrentTour] = useState<Property>(tour);
   const [pendingHotspot, setPendingHotspot] = useState<{ x: number; y: number } | null>(null);
   const [newLabel, setNewLabel] = useState('');
   const [newTargetRoomId, setNewTargetRoomId] = useState(
@@ -28,6 +28,7 @@ export const HotspotEditorModal: React.FC<HotspotEditorModalProps> = ({
   if (!selectedRoom) return null;
 
   const currentHotspots = selectedRoom.hotspots3D || [];
+  const roomImage = (selectedRoom.photos && selectedRoom.photos[0]) || selectedRoom.media?.[0]?.url || selectedRoom.coverImage;
 
   const handleImageClick = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -147,7 +148,7 @@ export const HotspotEditorModal: React.FC<HotspotEditorModalProps> = ({
                 className="relative w-full h-full"
               >
                 <img
-                  src={selectedRoom.photos[0] || selectedRoom.coverImage}
+                  src={roomImage}
                   alt={selectedRoom.name}
                   className="w-full h-full object-cover select-none"
                 />

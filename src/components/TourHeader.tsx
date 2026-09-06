@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, Settings, ChevronDown, Building2 } from 'lucide-react';
-import type { Tour } from '../types';
+import type { Property } from '../types';
 
 interface TourHeaderProps {
-  currentTour: Tour;
-  allTours: Tour[];
-  onSelectTour: (tour: Tour) => void;
+  currentTour: Property;
+  allTours: Property[];
+  onSelectTour: (tour: Property) => void;
   onOpenAdmin: () => void;
   onNavigateTo: (sectionId: string) => void;
 }
@@ -47,8 +47,8 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#0b0c0e]/95 backdrop-blur-md py-4 border-b border-white/10 shadow-2xl'
-          : 'bg-gradient-to-b from-[#0b0c0e]/90 via-[#0b0c0e]/40 to-transparent py-5 border-b border-white/5'
+          ? 'bg-[#08090A]/95 backdrop-blur-md py-4 border-b border-white/10 shadow-2xl'
+          : 'bg-gradient-to-b from-[#08090A]/90 via-[#08090A]/40 to-transparent py-5 border-b border-white/5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
@@ -154,7 +154,7 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
 
       {/* Mobile Menu Overlay */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#0b0c0e]/98 border-b border-white/10 px-8 py-8 animate-in slide-in-from-top duration-300">
+        <div className="md:hidden bg-[#08090A]/98 border-b border-white/10 px-8 py-8 animate-in slide-in-from-top duration-300">
           <div className="flex flex-col gap-5">
             {/* Property Selector for Mobile */}
             {allTours.length > 1 && (

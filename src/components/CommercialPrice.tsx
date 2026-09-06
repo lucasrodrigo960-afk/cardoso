@@ -1,15 +1,15 @@
 import React from 'react';
 import { ArrowRight, Tag } from 'lucide-react';
-import type { Tour } from '../types';
+import type { Property } from '../types';
 
 interface CommercialPriceProps {
-  tour: Tour;
+  tour: Property;
   onInterest: () => void;
 }
 
 export const CommercialPrice: React.FC<CommercialPriceProps> = ({ tour, onInterest }) => {
   return (
-    <section id="commercial" className="py-20 px-6 sm:px-12 max-w-7xl mx-auto bg-[#0b0c0e]">
+    <section id="commercial" className="py-20 px-6 sm:px-12 max-w-7xl mx-auto bg-[#08090A]">
       <div className="glass-dark-card rounded-3xl p-8 sm:p-12 border border-amber-400/30 flex flex-col md:flex-row items-center justify-between gap-8 shadow-2xl">
         <div>
           <div className="flex items-center gap-2 text-amber-400 font-mono text-xs tracking-[0.25em] uppercase mb-2">
@@ -51,7 +51,7 @@ export const CommercialPrice: React.FC<CommercialPriceProps> = ({ tour, onIntere
             onClick={onInterest}
             className="btn-gold-warm w-full md:w-auto px-10 py-5 rounded-2xl text-xs uppercase tracking-[0.25em] flex items-center justify-center gap-3 cursor-pointer shadow-xl"
           >
-            <span>TENHO INTERESSE NESTE IMÓVEL</span>
+            <span>FALAR COM UM CONSULTOR</span>
             <ArrowRight className="w-4 h-4" />
           </button>
         </div>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
-import type { Tour, Room } from '../types';
+import type { Property, Room } from '../types';
 
 interface HeroOverviewProps {
-  tour: Tour;
+  tour: Property;
   onStartExplore: () => void;
   onSelectRoom?: (room: Room) => void;
 }

@@ -3,13 +3,13 @@ import {
   X, Save, RotateCcw, Download, Upload, Palette, Navigation,
   Image, Map, DollarSign, List, Move
 } from 'lucide-react';
-import type { Tour } from '../types';
+import type { Property } from '../types';
 import { HotspotEditorModal } from './HotspotEditorModal';
 import { SectionReorderModal } from './SectionReorderModal';
 
 interface AdminPanelManagerProps {
-  currentTour: Tour;
-  onSaveTour: (updatedTour: Tour) => void;
+  currentTour: Property;
+  onSaveTour: (updatedTour: Property) => void;
   onResetDemo: () => void;
   onClose: () => void;
 }
@@ -20,14 +20,14 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
   onResetDemo,
   onClose,
 }) => {
-  const [formData, setFormData] = useState<Tour>(currentTour);
+  const [formData, setFormData] = useState<Property>(currentTour);
   const [activeTab, setActiveTab] = useState<'theme' | 'general' | 'rooms3d' | 'gallery' | 'location' | 'features'>('theme');
   const [showHotspotModal, setShowHotspotModal] = useState(false);
   const [showReorderModal, setShowReorderModal] = useState(false);
   const [newGalleryPhotoUrl, setNewGalleryPhotoUrl] = useState('');
   const [newFeatureText, setNewFeatureText] = useState('');
 
-  const handleTextChange = (field: keyof Tour, value: any) => {
+  const handleTextChange = (field: keyof Property, value: any) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -38,12 +38,22 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
     }));
   };
 
+  const handleLocationChange = (field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      locationData: {
+        ...prev.locationData,
+        [field]: value,
+      },
+    }));
+  };
+
   const handleThemeChange = (field: string, value: any) => {
     setFormData((prev) => ({
       ...prev,
       themeConfig: {
         accentColor: '#d4af37',
-        backgroundColor: '#0b0c0e',
+        backgroundColor: '#08090A',
         surfaceColor: '#121316',
         textColor: '#f4f4f5',
         titleFontFamily: 'serif-playfair',
@@ -129,7 +139,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
     <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-6 text-white overflow-y-auto">
       <div className="relative w-full max-w-5xl bg-[#121316] rounded-3xl border border-white/15 shadow-2xl flex flex-col max-h-[96vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#0b0c0e]">
+        <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#08090A]">
           <div className="flex items-center gap-3">
             <span className="text-amber-400 font-mono text-xs tracking-widest uppercase">PAINEL ADMIN 100% EDITÁVEL</span>
             <span className="text-zinc-600">|</span>
@@ -160,7 +170,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
         </div>
 
         {/* Tab Navigation */}
-        <div className="flex items-center gap-2 px-8 py-3 bg-[#08080a] border-b border-white/10 overflow-x-auto">
+        <div className="flex items-center gap-2 px-8 py-3 bg-[#08090A] border-b border-white/10 overflow-x-auto">
           {[
             { id: 'theme', label: 'Cores, Fontes & Logos', icon: Palette },
             { id: 'general', label: 'Dados & Comercial', icon: DollarSign },
@@ -210,7 +220,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                       type="text"
                       value={formData.themeConfig?.accentColor || '#d4af37'}
                       onChange={(e) => handleThemeChange('accentColor', e.target.value)}
-                      className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                      className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                     />
                   </div>
                 </div>
@@ -218,11 +228,11 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                 <div>
                   <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Tom do Fundo Principal:</label>
                   <select
-                    value={formData.themeConfig?.backgroundColor || '#0b0c0e'}
+                    value={formData.themeConfig?.backgroundColor || '#08090A'}
                     onChange={(e) => handleThemeChange('backgroundColor', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   >
-                    <option value="#0b0c0e">Preto Obsidian (#0b0c0e)</option>
+                    <option value="#08090A">Preto Obsidian (#08090A)</option>
                     <option value="#08090a">Preto Grafite Escuro (#08090a)</option>
                     <option value="#0a0d14">Azul Marinho Noturno (#0a0d14)</option>
                   </select>
@@ -233,7 +243,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                   <select
                     value={formData.themeConfig?.titleFontFamily || 'serif-playfair'}
                     onChange={(e) => handleThemeChange('titleFontFamily', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   >
                     <option value="serif-playfair">Playfair Display (Serif Clássica Elegante)</option>
                     <option value="serif-cinzel">Cinzel (Serif Editorial de Luxo)</option>
@@ -249,7 +259,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                     value={formData.themeConfig?.logoUrl || ''}
                     onChange={(e) => handleThemeChange('logoUrl', e.target.value)}
                     placeholder="/assets/logo-cardoso.png ou URL da imagem"
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
               </div>
@@ -270,7 +280,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                     type="text"
                     value={formData.propertyName}
                     onChange={(e) => handleTextChange('propertyName', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
 
@@ -280,7 +290,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                     type="text"
                     value={formData.location}
                     onChange={(e) => handleTextChange('location', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
 
@@ -290,7 +300,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                     type="text"
                     value={formData.price}
                     onChange={(e) => handleTextChange('price', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white font-serif text-lg text-amber-300"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white font-serif text-lg text-amber-300"
                   />
                 </div>
 
@@ -300,7 +310,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                     type="text"
                     value={formData.details.condoFee || ''}
                     onChange={(e) => handleDetailChange('condoFee', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
 
@@ -310,7 +320,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                     type="text"
                     value={formData.details.iptu || ''}
                     onChange={(e) => handleDetailChange('iptu', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
 
@@ -320,7 +330,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                     type="text"
                     value={formData.tagline || ''}
                     onChange={(e) => handleTextChange('tagline', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white font-serif italic"
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white font-serif italic"
                   />
                 </div>
               </div>
@@ -331,7 +341,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                   rows={4}
                   value={formData.description}
                   onChange={(e) => handleTextChange('description', e.target.value)}
-                  className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl p-4 text-xs text-white leading-relaxed"
+                  className="w-full bg-[#08090A] border border-white/15 rounded-xl p-4 text-xs text-white leading-relaxed"
                 />
               </div>
             </div>
@@ -362,14 +372,14 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                 {formData.rooms.map((room) => (
                   <div
                     key={room.id}
-                    className="p-5 rounded-2xl bg-[#0b0c0e] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
+                    className="p-5 rounded-2xl bg-[#08090A] border border-white/10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4"
                   >
                     <div className="flex items-center gap-4">
                       <div className="w-16 h-12 rounded-xl overflow-hidden bg-black flex-shrink-0 border border-white/10">
                         <img src={room.coverImage} alt={room.name} className="w-full h-full object-cover" />
                       </div>
                       <div>
-                        <div className="text-xs font-mono text-amber-400">{room.number} · {room.areaM2} m²</div>
+                        <div className="text-xs font-mono text-amber-400">{room.number} {room.areaM2 ? `· ${room.areaM2} m²` : ''}</div>
                         <div className="text-base font-serif text-white">{room.name}</div>
                         <div className="text-[11px] text-zinc-400">
                           {room.hotspots3D?.length || 0} setas de transição configuradas
@@ -396,7 +406,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                   placeholder="URL da nova fotografia (https://...)"
                   value={newGalleryPhotoUrl}
                   onChange={(e) => setNewGalleryPhotoUrl(e.target.value)}
-                  className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                 />
                 <button
                   onClick={handleAddGalleryPhoto}
@@ -427,27 +437,17 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
           {activeTab === 'location' && (
             <div className="space-y-6">
               <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">
-                Planta Baixa & Mapa de Localização
+                Mapa de Localização da Região
               </h3>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">URL da Imagem da Planta Baixa:</label>
-                  <input
-                    type="text"
-                    value={formData.floorPlanImage || ''}
-                    onChange={(e) => handleTextChange('floorPlanImage', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
-                  />
-                </div>
-
-                <div>
                   <label className="block text-xs font-mono text-amber-400 uppercase mb-2">URL da Imagem do Mapa Aéreo:</label>
                   <input
                     type="text"
-                    value={formData.regionMapPrint || ''}
-                    onChange={(e) => handleTextChange('regionMapPrint', e.target.value)}
-                    className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                    value={formData.locationData?.regionMapPrint || ''}
+                    onChange={(e) => handleLocationChange('regionMapPrint', e.target.value)}
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
               </div>
@@ -467,7 +467,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
                   placeholder="Novo diferencial (Ex: Varanda com Churrasqueira)"
                   value={newFeatureText}
                   onChange={(e) => setNewFeatureText(e.target.value)}
-                  className="w-full bg-[#0b0c0e] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                  className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                 />
                 <button
                   onClick={handleAddFeature}
@@ -479,7 +479,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
 
               <div className="space-y-2">
                 {formData.details.features.map((feat, idx) => (
-                  <div key={idx} className="p-3 rounded-xl bg-[#0b0c0e] border border-white/10 flex items-center justify-between text-xs text-zinc-200">
+                  <div key={idx} className="p-3 rounded-xl bg-[#08090A] border border-white/10 flex items-center justify-between text-xs text-zinc-200">
                     <span>{feat}</span>
                     <button
                       onClick={() => handleDeleteFeature(idx)}
@@ -495,7 +495,7 @@ export const AdminPanelManager: React.FC<AdminPanelManagerProps> = ({
         </div>
 
         {/* Footer JSON Import / Export & Reset */}
-        <div className="flex flex-wrap items-center justify-between px-8 py-4 border-t border-white/10 bg-[#0b0c0e] text-xs">
+        <div className="flex flex-wrap items-center justify-between px-8 py-4 border-t border-white/10 bg-[#08090A] text-xs">
           <div className="flex items-center gap-4">
             <button
               onClick={handleExportJSON}

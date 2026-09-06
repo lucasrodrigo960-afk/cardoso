@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Compass, Layers, Maximize2, Minimize2, MoveUp } from 'lucide-react';
-import type { Tour } from '../types';
+import type { Property } from '../types';
 
 interface NativeTour3DViewerProps {
-  tour: Tour;
+  tour: Property;
   onOpenAdminEditor?: () => void;
 }
 
@@ -20,7 +20,13 @@ export const NativeTour3DViewer: React.FC<NativeTour3DViewerProps> = ({ tour }) 
     return null;
   }
 
-  const currentPhoto = activeRoom.photos[activePhotoIndex] || activeRoom.coverImage;
+  const roomPhotos = (activeRoom.photos && activeRoom.photos.length > 0)
+    ? activeRoom.photos
+    : (activeRoom.media && activeRoom.media.length > 0)
+    ? activeRoom.media.map(m => m.url)
+    : [activeRoom.coverImage];
+
+  const currentPhoto = roomPhotos[activePhotoIndex] || activeRoom.coverImage;
   const hotspots = activeRoom.hotspots3D || [];
 
   const handleHotspotClick = (targetRoomId: string) => {
@@ -100,7 +106,9 @@ export const NativeTour3DViewer: React.FC<NativeTour3DViewerProps> = ({ tour }) 
             <span className="font-mono text-xs uppercase tracking-widest text-amber-300 font-semibold">
               {activeRoom.number} · {activeRoom.name}
             </span>
-            <span className="text-zinc-500 font-mono text-xs">({activeRoom.areaM2} m²)</span>
+            {activeRoom.areaM2 && (
+              <span className="text-zinc-500 font-mono text-xs">({activeRoom.areaM2} m²)</span>
+            )}
           </div>
 
           <div className="pointer-events-auto flex items-center gap-2">
@@ -143,9 +151,9 @@ export const NativeTour3DViewer: React.FC<NativeTour3DViewerProps> = ({ tour }) 
           </div>
 
           {/* Photo Sub-navigation if room has multiple photos */}
-          {activeRoom.photos.length > 1 && (
+          {roomPhotos.length > 1 && (
             <div className="pointer-events-auto hidden md:flex items-center gap-1 bg-black/80 backdrop-blur-md p-1.5 rounded-xl border border-white/15">
-              {activeRoom.photos.map((_, pIdx) => (
+              {roomPhotos.map((_, pIdx) => (
                 <button
                   key={pIdx}
                   onClick={() => setActivePhotoIndex(pIdx)}

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import { X, Save, Plus, Trash2, Link, Copy, Check, Lock, RefreshCw } from 'lucide-react';
-import type { Tour, Room } from '../types';
+import { X, Save, Plus, Trash2, RotateCcw, Download, Upload, Image, Map, DollarSign, List, Palette } from 'lucide-react';
+import type { Property } from '../types';
 
 interface AdminPanelProps {
-  currentTour: Tour;
-  onSaveTour: (updatedTour: Tour) => void;
+  currentTour: Property;
+  onSaveTour: (updatedTour: Property) => void;
   onResetDemo: () => void;
   onClose: () => void;
 }
@@ -15,296 +15,317 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
   onResetDemo,
   onClose,
 }) => {
-  const [activeTab, setActiveTab] = useState<'general' | 'rooms' | 'floorplan' | 'region'>('general');
-  const [tourData, setTourData] = useState<Tour>(JSON.parse(JSON.stringify(currentTour)));
-  const [copiedLink, setCopiedLink] = useState(false);
-  const [savedSuccess, setSavedSuccess] = useState(false);
+  const [formData, setFormData] = useState<Property>(currentTour);
+  const [activeTab, setActiveTab] = useState<'general' | 'rooms' | 'gallery' | 'location' | 'features' | 'theme'>('general');
+  const [newFeatureText, setNewFeatureText] = useState('');
+  const [newGalleryPhotoUrl, setNewGalleryPhotoUrl] = useState('');
 
-  const handleCopyLink = () => {
-    const exclusiveUrl = `${window.location.origin}/?tour=${tourData.slug}`;
-    navigator.clipboard.writeText(exclusiveUrl);
-    setCopiedLink(true);
-    setTimeout(() => setCopiedLink(false), 3000);
+  const handleTextChange = (field: keyof Property, value: any) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleSave = () => {
-    onSaveTour(tourData);
-    setSavedSuccess(true);
-    setTimeout(() => setSavedSuccess(false), 2500);
+  const handleDetailChange = (field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      details: { ...prev.details, [field]: value },
+    }));
   };
 
-  const handleUpdateRoom = (index: number, field: keyof Room, value: any) => {
-    const updatedRooms = [...tourData.rooms];
-    updatedRooms[index] = { ...updatedRooms[index], [field]: value };
-    setTourData({ ...tourData, rooms: updatedRooms });
+  const handleLocationChange = (field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      locationData: {
+        ...prev.locationData,
+        [field]: value,
+      },
+    }));
   };
 
   const handleAddRoom = () => {
-    const newNumber = String(tourData.rooms.length + 1).padStart(2, '0');
-    const newRoom: Room = {
-      id: `room-${Date.now()}`,
-      number: newNumber,
-      name: 'NOVO AMBIENTE',
-      subtitle: 'Descrição detalhada do novo cômodo.',
-      areaM2: 25,
+    const newRoom = {
+      id: `r_${Date.now()}`,
+      categoryId: 'area-social',
+      number: String(formData.rooms.length + 1).padStart(2, '0'),
+      name: 'NOVO CÔMODO',
+      subtitle: 'Descrição do novo cômodo',
+      areaM2: 20,
       coverImage: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80',
-      photos: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=80'],
-      characteristics: ['Iluminação de LED', 'Piso de Mármore'],
-      order: tourData.rooms.length + 1,
+      media: [
+        { id: `m_${Date.now()}`, type: 'image' as const, url: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80', title: 'Foto Principal' }
+      ],
+      photos: ['https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80'],
+      characteristics: ['Iluminação Natural', 'Acabamento de Alto Padrão'],
+      order: formData.rooms.length + 1,
     };
-    setTourData({ ...tourData, rooms: [...tourData.rooms, newRoom] });
+
+    setFormData((prev) => ({
+      ...prev,
+      rooms: [...prev.rooms, newRoom],
+    }));
   };
 
-  const handleDeleteRoom = (index: number) => {
-    const updatedRooms = tourData.rooms.filter((_, i) => i !== index);
-    setTourData({ ...tourData, rooms: updatedRooms });
+  const handleDeleteRoom = (roomId: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      rooms: prev.rooms.filter((r) => r.id !== roomId),
+    }));
+  };
+
+  const handleRoomChange = (roomId: string, field: string, value: any) => {
+    setFormData((prev) => ({
+      ...prev,
+      rooms: prev.rooms.map((r) => {
+        if (r.id === roomId) {
+          return { ...r, [field]: value };
+        }
+        return r;
+      }),
+    }));
+  };
+
+  const handleAddFeature = () => {
+    if (!newFeatureText.trim()) return;
+    setFormData((prev) => ({
+      ...prev,
+      details: {
+        ...prev.details,
+        features: [...prev.details.features, newFeatureText.trim()],
+      },
+    }));
+    setNewFeatureText('');
+  };
+
+  const handleDeleteFeature = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      details: {
+        ...prev.details,
+        features: prev.details.features.filter((_, i) => i !== index),
+      },
+    }));
+  };
+
+  const handleAddGalleryPhoto = () => {
+    if (!newGalleryPhotoUrl.trim()) return;
+    setFormData((prev) => ({
+      ...prev,
+      galleryPhotos: [...prev.galleryPhotos, newGalleryPhotoUrl.trim()],
+    }));
+    setNewGalleryPhotoUrl('');
+  };
+
+  const handleDeleteGalleryPhoto = (index: number) => {
+    setFormData((prev) => ({
+      ...prev,
+      galleryPhotos: prev.galleryPhotos.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleSave = () => {
+    onSaveTour(formData);
+    onClose();
+  };
+
+  const handleExportJSON = () => {
+    const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(formData, null, 2));
+    const downloadAnchor = document.createElement('a');
+    downloadAnchor.setAttribute('href', dataStr);
+    downloadAnchor.setAttribute('download', `cardoso_${formData.slug || 'imovel'}.json`);
+    document.body.appendChild(downloadAnchor);
+    downloadAnchor.click();
+    downloadAnchor.remove();
+  };
+
+  const handleImportJSON = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const json = JSON.parse(event.target?.result as string);
+        if (json && json.propertyName) {
+          setFormData(json);
+          alert('Configuração do imóvel importada com sucesso!');
+        }
+      } catch (err) {
+        alert('Erro ao ler arquivo JSON.');
+      }
+    };
+    reader.readAsText(file);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-2xl p-4 text-white">
-      <div className="relative w-full max-w-5xl bg-[#121214] rounded-2xl overflow-hidden border border-white/10 shadow-2xl flex flex-col max-h-[92vh]">
+    <div className="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex items-center justify-center p-4 text-white overflow-y-auto">
+      <div className="relative w-full max-w-5xl bg-[#121316] rounded-3xl border border-white/15 shadow-2xl flex flex-col max-h-[95vh] overflow-hidden">
         {/* Header */}
-        <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#08080a]">
+        <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-[#08090A]">
           <div className="flex items-center gap-3">
-            <Lock className="w-4 h-4 text-amber-400" />
-            <div>
-              <div className="text-[10px] font-mono text-amber-400 uppercase tracking-widest">PAINEL ADMINISTRATIVO</div>
-              <h2 className="text-lg font-serif font-light text-white">Gestão de Tour Exclusivo</h2>
-            </div>
+            <span className="text-amber-400 font-mono text-xs tracking-widest uppercase">PAINEL DE CONTROLE</span>
+            <span className="text-zinc-600">|</span>
+            <h2 className="text-xl font-serif text-white">{formData.propertyName}</h2>
           </div>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
             <button
               onClick={handleSave}
-              className="px-6 py-2 rounded-full bg-white hover:bg-amber-400 text-black font-light text-xs uppercase tracking-widest transition-colors flex items-center gap-2 cursor-pointer"
+              className="btn-gold-warm px-6 py-2.5 rounded-xl text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer shadow-lg font-bold"
             >
-              <Save className="w-3.5 h-3.5" />
-              <span>Salvar Alterações</span>
+              <Save className="w-4 h-4" />
+              <span>SALVAR ALTERAÇÕES</span>
             </button>
 
-            <button
-              onClick={onClose}
-              className="p-1 text-zinc-400 hover:text-white"
-            >
+            <button onClick={onClose} className="p-2 text-zinc-400 hover:text-white">
               <X className="w-5 h-5" />
             </button>
           </div>
         </div>
 
-        {/* Success Alert */}
-        {savedSuccess && (
-          <div className="bg-emerald-600 text-white text-xs font-light px-8 py-2.5 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Check className="w-4 h-4" />
-              <span>As alterações do Tour foram salvas com sucesso!</span>
-            </div>
-          </div>
-        )}
-
-        {/* Navigation Tabs */}
-        <div className="flex border-b border-white/10 bg-[#08080a] px-8 gap-8 text-xs font-light tracking-widest uppercase overflow-x-auto">
-          <button
-            onClick={() => setActiveTab('general')}
-            className={`py-4 border-b-2 transition-colors cursor-pointer ${
-              activeTab === 'general' ? 'border-amber-400 text-amber-300' : 'border-transparent text-zinc-500 hover:text-zinc-300'
-            }`}
-          >
-            Geral & Link
-          </button>
-          <button
-            onClick={() => setActiveTab('rooms')}
-            className={`py-4 border-b-2 transition-colors cursor-pointer ${
-              activeTab === 'rooms' ? 'border-amber-400 text-amber-300' : 'border-transparent text-zinc-500 hover:text-zinc-300'
-            }`}
-          >
-            Ambientes ({tourData.rooms.length})
-          </button>
-          <button
-            onClick={() => setActiveTab('floorplan')}
-            className={`py-4 border-b-2 transition-colors cursor-pointer ${
-              activeTab === 'floorplan' ? 'border-amber-400 text-amber-300' : 'border-transparent text-zinc-500 hover:text-zinc-300'
-            }`}
-          >
-            Planta Baixa
-          </button>
-          <button
-            onClick={() => setActiveTab('region')}
-            className={`py-4 border-b-2 transition-colors cursor-pointer ${
-              activeTab === 'region' ? 'border-amber-400 text-amber-300' : 'border-transparent text-zinc-500 hover:text-zinc-300'
-            }`}
-          >
-            Print da Região
-          </button>
+        {/* Tab Bar */}
+        <div className="flex items-center gap-2 px-8 py-3 bg-[#08090A] border-b border-white/10 overflow-x-auto">
+          {[
+            { id: 'general', label: 'Geral & Preço', icon: DollarSign },
+            { id: 'rooms', label: 'Ambientes & Mídias', icon: Image },
+            { id: 'gallery', label: 'Galeria Fotográfica', icon: Image },
+            { id: 'location', label: 'Localização & Região', icon: Map },
+            { id: 'features', label: 'Ficha Técnica & Atributos', icon: List },
+            { id: 'theme', label: 'Estilo & Cores', icon: Palette },
+          ].map((tab) => {
+            const IconComp = tab.icon;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`px-4 py-2 rounded-xl text-xs font-mono tracking-wider uppercase transition-all flex items-center gap-2 cursor-pointer flex-shrink-0 ${
+                  activeTab === tab.id
+                    ? 'bg-amber-400 text-slate-950 font-bold shadow-md'
+                    : 'bg-white/5 hover:bg-white/10 text-zinc-400'
+                }`}
+              >
+                <IconComp className="w-3.5 h-3.5" />
+                <span>{tab.label}</span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Content Body */}
-        <div className="p-8 overflow-y-auto max-h-[calc(92vh-160px)] space-y-6">
-          {/* TAB 1: GENERAL INFO & EXCLUSIVE LINK */}
+        {/* Body Content */}
+        <div className="p-8 overflow-y-auto max-h-[calc(95vh-180px)] space-y-6">
+          {/* TAB 1: GERAL & PREÇO */}
           {activeTab === 'general' && (
             <div className="space-y-6">
-              {/* Link Generator Box */}
-              <div className="bg-[#08080a] p-6 rounded-xl border border-white/10">
-                <div className="text-xs font-light text-amber-400 uppercase tracking-widest mb-3 flex items-center gap-2">
-                  <Link className="w-4 h-4" />
-                  <span>Link Exclusivo Gerado para Enviar ao Cliente</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <input
-                    type="text"
-                    readOnly
-                    value={`${window.location.origin}/?tour=${tourData.slug}`}
-                    className="w-full bg-[#121214] border border-white/10 rounded-xl py-3 px-4 text-xs font-mono text-amber-300"
-                  />
-                  <button
-                    onClick={handleCopyLink}
-                    className="px-6 py-3 rounded-xl bg-white/10 hover:bg-white/20 text-white font-light text-xs uppercase tracking-widest flex items-center gap-2 flex-shrink-0 cursor-pointer"
-                  >
-                    {copiedLink ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-                    <span>{copiedLink ? 'Copiado!' : 'Copiar Link'}</span>
-                  </button>
-                </div>
-              </div>
+              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">Informações do Imóvel</h3>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-xs font-light text-zinc-400 uppercase tracking-widest mb-1.5">Nome do Imóvel</label>
+                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Nome do Imóvel:</label>
                   <input
                     type="text"
-                    value={tourData.propertyName}
-                    onChange={(e) => setTourData({ ...tourData, propertyName: e.target.value })}
-                    className="w-full bg-[#08080a] border border-white/10 rounded-xl p-3 text-xs text-white"
+                    value={formData.propertyName}
+                    onChange={(e) => handleTextChange('propertyName', e.target.value)}
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-light text-zinc-400 uppercase tracking-widest mb-1.5">Localização (Cidade - UF)</label>
+                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Bairro e Cidade/UF:</label>
                   <input
                     type="text"
-                    value={tourData.location}
-                    onChange={(e) => setTourData({ ...tourData, location: e.target.value })}
-                    className="w-full bg-[#08080a] border border-white/10 rounded-xl p-3 text-xs text-white"
+                    value={formData.location}
+                    onChange={(e) => handleTextChange('location', e.target.value)}
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-light text-zinc-400 uppercase tracking-widest mb-1.5">Valor de Venda</label>
+                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Preço de Venda:</label>
                   <input
                     type="text"
-                    value={tourData.price}
-                    onChange={(e) => setTourData({ ...tourData, price: e.target.value })}
-                    className="w-full bg-[#08080a] border border-white/10 rounded-xl p-3 text-xs text-white"
+                    value={formData.price}
+                    onChange={(e) => handleTextChange('price', e.target.value)}
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white font-serif text-lg text-amber-300"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-light text-zinc-400 uppercase tracking-widest mb-1.5">URL Foto de Capa (Hero)</label>
+                  <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Condomínio:</label>
                   <input
                     type="text"
-                    value={tourData.heroImage}
-                    onChange={(e) => setTourData({ ...tourData, heroImage: e.target.value })}
-                    className="w-full bg-[#08080a] border border-white/10 rounded-xl p-3 text-xs text-white"
+                    value={formData.details.condoFee || ''}
+                    onChange={(e) => handleDetailChange('condoFee', e.target.value)}
+                    className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-between p-4 rounded-xl bg-[#08080a] border border-white/10">
-                <div>
-                  <div className="text-xs font-light text-white">Privacidade da Localização</div>
-                  <div className="text-[11px] text-zinc-500 font-light">Esconder o endereço exato para manter exclusividade VIP</div>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => setTourData({ ...tourData, isExactLocation: !tourData.isExactLocation })}
-                  className={`px-4 py-2 rounded-xl text-xs font-light uppercase tracking-wider transition-all ${
-                    tourData.isExactLocation
-                      ? 'bg-emerald-600 text-white'
-                      : 'bg-white/10 text-amber-300 border border-white/10'
-                  }`}
-                >
-                  {tourData.isExactLocation ? 'Localização Exata Exibida' : 'Localização Reservada'}
-                </button>
-              </div>
-
-              <div className="pt-4 border-t border-white/10 flex justify-end">
-                <button
-                  onClick={onResetDemo}
-                  className="px-4 py-2 rounded-xl bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 text-xs font-light uppercase tracking-wider flex items-center gap-2 cursor-pointer"
-                >
-                  <RefreshCw className="w-4 h-4" />
-                  <span>Restaurar Dados Demonstrativos</span>
-                </button>
+              <div>
+                <label className="block text-xs font-mono text-amber-400 uppercase mb-2">Descrição Factual:</label>
+                <textarea
+                  rows={4}
+                  value={formData.description}
+                  onChange={(e) => handleTextChange('description', e.target.value)}
+                  className="w-full bg-[#08090A] border border-white/15 rounded-xl p-4 text-xs text-white leading-relaxed"
+                />
               </div>
             </div>
           )}
 
-          {/* TAB 2: ROOMS */}
+          {/* TAB 2: AMBIENTES */}
           {activeTab === 'rooms' && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xs font-light text-amber-400 uppercase tracking-widest">Ambientes Cadastrados</h3>
+              <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                <h3 className="text-lg font-serif text-white">Cômodos do Imóvel ({formData.rooms.length})</h3>
                 <button
                   onClick={handleAddRoom}
-                  className="px-4 py-2 rounded-full bg-white text-black font-light text-xs uppercase tracking-widest flex items-center gap-2 cursor-pointer"
+                  className="btn-gold-warm px-4 py-2 rounded-xl text-xs uppercase font-bold flex items-center gap-2"
                 >
                   <Plus className="w-4 h-4" />
-                  <span>Adicionar Ambiente</span>
+                  <span>Novo Cômodo</span>
                 </button>
               </div>
 
-              <div className="space-y-4">
-                {tourData.rooms.map((room, idx) => (
-                  <div key={room.id} className="bg-[#08080a] p-5 rounded-xl border border-white/10 space-y-3">
-                    <div className="flex items-center justify-between pb-3 border-b border-white/10">
-                      <div className="flex items-center gap-3">
-                        <span className="font-mono text-xs text-amber-400">
-                          {room.number}
-                        </span>
-                        <input
-                          type="text"
-                          value={room.name}
-                          onChange={(e) => handleUpdateRoom(idx, 'name', e.target.value)}
-                          className="bg-[#121214] border border-white/10 rounded-lg px-3 py-1 text-xs text-white font-light"
-                        />
+              <div className="space-y-6">
+                {formData.rooms.map((room) => (
+                  <div key={room.id} className="p-5 rounded-2xl bg-[#08090A] border border-white/10 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="text-xs font-mono text-amber-400 uppercase font-bold">
+                        {room.number} · {room.name}
                       </div>
-
                       <button
-                        onClick={() => handleDeleteRoom(idx)}
-                        className="p-1.5 text-zinc-500 hover:text-red-400"
-                        title="Remover Cômodo"
+                        onClick={() => handleDeleteRoom(room.id)}
+                        className="text-red-400 hover:text-red-300 p-1"
                       >
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
-                        <label className="block text-zinc-500 text-[10px] uppercase mb-1">Metragem (m²)</label>
+                        <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Nome:</label>
                         <input
-                          type="number"
-                          value={room.areaM2}
-                          onChange={(e) => handleUpdateRoom(idx, 'areaM2', Number(e.target.value))}
-                          className="w-full bg-[#121214] border border-white/10 rounded-lg p-2 text-white"
+                          type="text"
+                          value={room.name}
+                          onChange={(e) => handleRoomChange(room.id, 'name', e.target.value)}
+                          className="w-full bg-[#121316] border border-white/15 rounded-lg px-3 py-2 text-xs text-white"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-zinc-500 text-[10px] uppercase mb-1">Imagem Capa (URL)</label>
+                        <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Área m²:</label>
+                        <input
+                          type="number"
+                          value={room.areaM2 || 0}
+                          onChange={(e) => handleRoomChange(room.id, 'areaM2', Number(e.target.value))}
+                          className="w-full bg-[#121316] border border-white/15 rounded-lg px-3 py-2 text-xs text-white"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="block text-[10px] font-mono text-zinc-400 uppercase mb-1">Imagem Capa:</label>
                         <input
                           type="text"
                           value={room.coverImage}
-                          onChange={(e) => handleUpdateRoom(idx, 'coverImage', e.target.value)}
-                          className="w-full bg-[#121214] border border-white/10 rounded-lg p-2 text-white truncate"
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-zinc-500 text-[10px] uppercase mb-1">Vídeo 4K (URL MP4)</label>
-                        <input
-                          type="text"
-                          value={room.videoUrl || ''}
-                          onChange={(e) => handleUpdateRoom(idx, 'videoUrl', e.target.value)}
-                          placeholder="https://..."
-                          className="w-full bg-[#121214] border border-white/10 rounded-lg p-2 text-white truncate"
+                          onChange={(e) => handleRoomChange(room.id, 'coverImage', e.target.value)}
+                          className="w-full bg-[#121316] border border-white/15 rounded-lg px-3 py-2 text-xs text-white"
                         />
                       </div>
                     </div>
@@ -314,35 +335,114 @@ export const AdminPanel: React.FC<AdminPanelProps> = ({
             </div>
           )}
 
-          {/* TAB 3: FLOOR PLAN */}
-          {activeTab === 'floorplan' && (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-light text-zinc-400 uppercase tracking-widest mb-2">URL da Imagem da Planta Baixa</label>
+          {/* TAB 3: GALERIA */}
+          {activeTab === 'gallery' && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">Galeria de Fotos</h3>
+
+              <div className="flex items-center gap-3">
                 <input
                   type="text"
-                  value={tourData.floorPlanImage || ''}
-                  onChange={(e) => setTourData({ ...tourData, floorPlanImage: e.target.value })}
-                  className="w-full bg-[#08080a] border border-white/10 rounded-xl p-3 text-xs text-white"
+                  placeholder="URL da foto"
+                  value={newGalleryPhotoUrl}
+                  onChange={(e) => setNewGalleryPhotoUrl(e.target.value)}
+                  className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
+                />
+                <button
+                  onClick={handleAddGalleryPhoto}
+                  className="btn-gold-warm px-5 py-2.5 rounded-xl text-xs uppercase font-bold flex-shrink-0"
+                >
+                  Adicionar
+                </button>
+              </div>
+
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                {formData.galleryPhotos.map((photo, idx) => (
+                  <div key={idx} className="relative group h-28 rounded-xl overflow-hidden bg-black border border-white/10">
+                    <img src={photo} alt="" className="w-full h-full object-cover" />
+                    <button
+                      onClick={() => handleDeleteGalleryPhoto(idx)}
+                      className="absolute top-2 right-2 p-1 rounded bg-red-600 text-white opacity-0 group-hover:opacity-100 transition-opacity"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: LOCALIZAÇÃO */}
+          {activeTab === 'location' && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">Localização & Mapa</h3>
+
+              <div>
+                <label className="block text-xs font-mono text-amber-400 uppercase mb-2">URL da Foto Aérea do Mapa:</label>
+                <input
+                  type="text"
+                  value={formData.locationData?.regionMapPrint || ''}
+                  onChange={(e) => handleLocationChange('regionMapPrint', e.target.value)}
+                  className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                 />
               </div>
             </div>
           )}
 
-          {/* TAB 4: REGION PRINT */}
-          {activeTab === 'region' && (
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs font-light text-zinc-400 uppercase tracking-widest mb-2">URL da Imagem/Print Aéreo da Região (JPG, PNG, WEBP)</label>
+          {/* TAB 5: DIFERENCIAIS */}
+          {activeTab === 'features' && (
+            <div className="space-y-6">
+              <h3 className="text-lg font-serif text-white border-b border-white/10 pb-2">Diferenciais do Imóvel</h3>
+
+              <div className="flex items-center gap-3">
                 <input
                   type="text"
-                  value={tourData.regionMapPrint}
-                  onChange={(e) => setTourData({ ...tourData, regionMapPrint: e.target.value })}
-                  className="w-full bg-[#08080a] border border-white/10 rounded-xl p-3 text-xs text-white"
+                  placeholder="Novo diferencial"
+                  value={newFeatureText}
+                  onChange={(e) => setNewFeatureText(e.target.value)}
+                  className="w-full bg-[#08090A] border border-white/15 rounded-xl px-4 py-2.5 text-xs text-white"
                 />
+                <button
+                  onClick={handleAddFeature}
+                  className="btn-gold-warm px-5 py-2.5 rounded-xl text-xs uppercase font-bold flex-shrink-0"
+                >
+                  Adicionar
+                </button>
+              </div>
+
+              <div className="space-y-2">
+                {formData.details.features.map((feat, idx) => (
+                  <div key={idx} className="p-3 rounded-xl bg-[#08090A] border border-white/10 flex items-center justify-between text-xs text-zinc-200">
+                    <span>{feat}</span>
+                    <button onClick={() => handleDeleteFeature(idx)} className="text-red-400 hover:text-red-300">
+                      <X className="w-4 h-4" />
+                    </button>
+                  </div>
+                ))}
               </div>
             </div>
           )}
+        </div>
+
+        {/* Footer */}
+        <div className="flex flex-wrap items-center justify-between px-8 py-4 border-t border-white/10 bg-[#08090A] text-xs">
+          <div className="flex items-center gap-4">
+            <button onClick={handleExportJSON} className="flex items-center gap-2 text-zinc-300 hover:text-amber-400 font-mono">
+              <Download className="w-4 h-4" />
+              <span>Exportar JSON</span>
+            </button>
+
+            <label className="flex items-center gap-2 text-zinc-300 hover:text-amber-400 font-mono cursor-pointer">
+              <Upload className="w-4 h-4" />
+              <span>Importar JSON</span>
+              <input type="file" accept=".json" onChange={handleImportJSON} className="hidden" />
+            </label>
+          </div>
+
+          <button onClick={onResetDemo} className="flex items-center gap-2 text-red-400 hover:text-red-300 font-mono">
+            <RotateCcw className="w-4 h-4" />
+            <span>Restaurar Padrão Demo</span>
+          </button>
         </div>
       </div>
     </div>

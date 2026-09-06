@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { Tour, Room } from './types';
+import type { Property, Room } from './types';
 import { ALL_PROPERTIES, DEMO_TOUR } from './data/demoData';
 import { TourHeader } from './components/TourHeader';
 import { HeroOverview } from './components/HeroOverview';
@@ -16,7 +16,7 @@ import { RoomModalViewer } from './components/RoomModalViewer';
 import { AdminPanelManager } from './components/AdminPanelManager';
 
 export function App() {
-  const [allTours, setAllTours] = useState<Tour[]>(() => {
+  const [allTours, setAllTours] = useState<Property[]>(() => {
     const saved = localStorage.getItem('cardoso_imoveis_tours');
     if (saved) {
       try {
@@ -28,11 +28,11 @@ export function App() {
     return ALL_PROPERTIES;
   });
 
-  const [currentTour, setCurrentTour] = useState<Tour>(() => allTours[0] || DEMO_TOUR);
+  const [currentTour, setCurrentTour] = useState<Property>(() => allTours[0] || DEMO_TOUR);
   const [selectedRoom, setSelectedRoom] = useState<Room | null>(null);
   const [showAdminModal, setShowAdminModal] = useState(false);
 
-  const handleSaveTour = (updatedTour: Tour) => {
+  const handleSaveTour = (updatedTour: Property) => {
     setCurrentTour(updatedTour);
     const updatedList = allTours.map((t) => (t.id === updatedTour.id ? updatedTour : t));
     setAllTours(updatedList);
@@ -72,7 +72,7 @@ export function App() {
           <HeroOverview
             key="overview"
             tour={currentTour}
-            onStartExplore={() => scrollToSection('property-overview')}
+            onStartExplore={() => scrollToSection('conheca-o-imovel')}
           />
         );
 
@@ -120,12 +120,6 @@ export function App() {
             key="contact"
             tour={currentTour}
             onBackToTop={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            onScheduleVisit={() => {
-              const whatsappUrl = `https://wa.me/${currentTour.consultantPhone}?text=${encodeURIComponent(
-                `Olá, gostaria de agendar uma visita presencial para o imóvel "${currentTour.propertyName}".`
-              )}`;
-              window.open(whatsappUrl, '_blank');
-            }}
           />
         );
 
@@ -136,28 +130,22 @@ export function App() {
 
   return (
     <div
-      className="min-h-screen text-zinc-300 font-sans selection:bg-amber-500/20 selection:text-amber-100 transition-colors duration-500"
-      style={{
-        backgroundColor: currentTour.themeConfig?.backgroundColor || '#08090A',
-      }}
+      className="min-h-screen text-[#F8F9FA] font-sans selection:bg-[#C5A880]/30 selection:text-[#E2D3BE] transition-colors duration-500 bg-[#0D0F12]"
     >
-      {/* Main Pure Expository Public Site (Direct Access without Splash Screen) */}
-      <div className="block">
-        {/* Navigation Header */}
-        <TourHeader
-          currentTour={currentTour}
-          allTours={allTours}
-          onSelectTour={(t) => setCurrentTour(t)}
-          onOpenAdmin={() => setShowAdminModal(true)}
-          onNavigateTo={scrollToSection}
-        />
+      {/* Navigation Header */}
+      <TourHeader
+        currentTour={currentTour}
+        allTours={allTours}
+        onSelectTour={(t) => setCurrentTour(t)}
+        onOpenAdmin={() => setShowAdminModal(true)}
+        onNavigateTo={scrollToSection}
+      />
 
-        {/* Dynamic Reorderable Sections Presentation */}
-        {sectionOrder.map((secId) => renderSection(secId))}
+      {/* Dynamic Reorderable Sections Presentation */}
+      {sectionOrder.map((secId) => renderSection(secId))}
 
-        {/* Minimalist Footer */}
-        <Footer />
-      </div>
+      {/* Minimalist Footer */}
+      <Footer />
 
       {/* Interactive Room Passage Modal */}
       {selectedRoom && (

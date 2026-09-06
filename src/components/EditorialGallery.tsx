@@ -24,97 +24,96 @@ export const EditorialGallery: React.FC<EditorialGalleryProps> = ({ tour }) => {
   }
 
   return (
-    <section id="gallery" className="py-24 md:py-32 px-6 sm:px-12 max-w-7xl mx-auto bg-[#08090A]">
-      {/* Section Header */}
-      <div className="max-w-3xl mb-16 text-left">
-        <div className="text-amber-400 font-mono text-xs tracking-[0.25em] uppercase mb-3">
-          Ensaio Fotográfico
+    <section id="galeria" className="w-full py-20 border-b border-[#252A34]/30 bg-[#0D0F12]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        {/* Section Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-14 gap-6">
+          <div className="space-y-1">
+            <span className="font-mono text-[11px] uppercase text-[#C5A880] tracking-[0.2em]">
+              Ensaio Fotográfico Arquitetônico
+            </span>
+            <h2 className="font-serif text-3xl sm:text-5xl text-[#F8F9FA] font-light tracking-tight">
+              Galeria de Imagens
+            </h2>
+            <p className="text-sm text-[#687082] font-light">
+              Registros em alta definição apresentando acabamentos, iluminação e cada ângulo da propriedade.
+            </p>
+          </div>
+
+          <div className="inline-flex items-center gap-2 text-xs text-[#A6ACB8] font-mono">
+            <Camera className="w-4 h-4 text-[#C5A880]" />
+            <span>Fotografia Autoral Cardoso Imóveis</span>
+          </div>
         </div>
-        <h2 className="text-4xl sm:text-6xl font-extralight text-white font-serif tracking-tight mb-4">
-          GALERIA DE FOTOS
-        </h2>
-        <p className="text-zinc-400 font-light text-sm sm:text-base leading-relaxed">
-          Registros em alta resolução apresentando os acabamentos, iluminação e cada espaço da propriedade.
-        </p>
-      </div>
 
-      {/* Editorial Layout Composition */}
-      <div className="space-y-6">
-        {/* Photo 1: Large Panoramic Header */}
-        {photos[0] && (
-          <div
-            onClick={() => setLightboxIndex(0)}
-            className="group relative w-full h-[400px] sm:h-[550px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl bg-[#121316] border border-white/10"
-          >
-            <img
-              src={photos[0]}
-              alt="Fotografia Principal"
-              className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter brightness-[0.9]"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-10 text-white">
-              <span className="font-mono text-xs text-amber-300 tracking-widest uppercase">Fotografia 01</span>
-              <span className="flex items-center gap-2 text-xs font-light tracking-wider group-hover:text-amber-400">
-                <Maximize2 className="w-4 h-4" />
-                <span>AMPLIAR</span>
-              </span>
+        {/* Asymmetrical Editorial Gallery Mosaic Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+          {/* Large Hero Showcase Photo (8 cols) */}
+          {photos[0] && (
+            <div
+              onClick={() => setLightboxIndex(0)}
+              className="md:col-span-8 relative rounded-2xl overflow-hidden group cursor-pointer bg-[#14171D] border border-[#252A34] shadow-xl"
+            >
+              <div className="aspect-[16/10] w-full overflow-hidden">
+                <img
+                  src={photos[0]}
+                  alt="Fotografia Principal 01"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.9]"
+                />
+                <div className="absolute inset-0 bg-[#0D0F12]/20 group-hover:bg-transparent transition-colors" />
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-3 rounded-xl bg-[#0D0F12]/80 backdrop-blur-md border border-[#252A34]">
+                  <span className="font-serif text-xs text-[#F8F9FA]">01 // Perspectiva Principal</span>
+                  <Maximize2 className="w-4 h-4 text-[#C5A880]" />
+                </div>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        {/* Photo 2 & 3: Side-by-side Pair */}
-        {photos.length > 1 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {photos.slice(1, 3).map((photo, idx) => (
-              <div
-                key={idx + 1}
-                onClick={() => setLightboxIndex(idx + 1)}
-                className="group relative h-[350px] sm:h-[450px] rounded-3xl overflow-hidden cursor-pointer shadow-2xl bg-[#121316] border border-white/10"
-              >
+          {/* Stacked Photo (4 cols) */}
+          {photos[1] && (
+            <div
+              onClick={() => setLightboxIndex(1)}
+              className="md:col-span-4 relative rounded-2xl overflow-hidden group cursor-pointer bg-[#14171D] border border-[#252A34] shadow-xl"
+            >
+              <div className="aspect-[16/10] md:aspect-[4/5] w-full overflow-hidden">
                 <img
-                  src={photo}
-                  alt={`Fotografia ${idx + 2}`}
-                  className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 filter brightness-[0.9]"
+                  src={photos[1]}
+                  alt="Fotografia 02"
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.9]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-80" />
-                <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between z-10 text-white">
-                  <span className="font-mono text-xs text-amber-300 tracking-widest uppercase">Fotografia 0{idx + 2}</span>
-                  <span className="flex items-center gap-2 text-xs font-light tracking-wider group-hover:text-amber-400">
-                    <Maximize2 className="w-4 h-4" />
-                    <span>AMPLIAR</span>
-                  </span>
+                <div className="absolute inset-0 bg-[#0D0F12]/20 group-hover:bg-transparent transition-colors" />
+                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between p-3 rounded-xl bg-[#0D0F12]/80 backdrop-blur-md border border-[#252A34]">
+                  <span className="font-serif text-xs text-[#F8F9FA]">02 // Salão Social & Pé-direito</span>
+                  <Maximize2 className="w-4 h-4 text-[#C5A880]" />
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          )}
 
-        {/* Remaining Photos Grid */}
-        {photos.length > 3 && (
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 pt-2">
-            {photos.slice(3).map((photo, idx) => (
-              <div
-                key={idx + 3}
-                onClick={() => setLightboxIndex(idx + 3)}
-                className="group relative h-[280px] sm:h-[350px] rounded-2xl overflow-hidden cursor-pointer shadow-xl bg-[#121316] border border-white/10"
-              >
+          {/* Row of 3 Photos (4 cols each) */}
+          {photos.slice(2, 5).map((photo, idx) => (
+            <div
+              key={idx + 2}
+              onClick={() => setLightboxIndex(idx + 2)}
+              className="md:col-span-4 relative rounded-2xl overflow-hidden group cursor-pointer bg-[#14171D] border border-[#252A34] shadow-xl"
+            >
+              <div className="aspect-[4/3] w-full overflow-hidden">
                 <img
                   src={photo}
-                  alt={`Fotografia ${idx + 4}`}
-                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 filter brightness-[0.9]"
+                  alt={`Fotografia 0${idx + 3}`}
+                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105 filter brightness-[0.9]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-70" />
-                <div className="absolute bottom-4 left-4 right-4 flex items-center justify-between z-10 text-white text-xs">
-                  <span className="font-mono text-[11px] text-amber-300">0{idx + 4}</span>
-                  <Camera className="w-3.5 h-3.5 text-zinc-400 group-hover:text-amber-400" />
+                <div className="absolute bottom-3 left-3 right-3 flex items-center justify-between p-2.5 rounded-xl bg-[#0D0F12]/80 backdrop-blur-md border border-[#252A34]">
+                  <span className="font-serif text-xs text-[#F8F9FA]">0{idx + 3} // Registro Editorial</span>
+                  <Maximize2 className="w-3.5 h-3.5 text-[#C5A880]" />
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Fullscreen Lightbox */}
+      {/* Fullscreen Lightbox Modal */}
       {lightboxIndex !== null && (
         <FullscreenGallery
           photos={photos}

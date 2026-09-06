@@ -1,4 +1,5 @@
 import React from 'react';
+import { CheckCircle2, Sun } from 'lucide-react';
 import type { Property } from '../types';
 
 interface PropertyOverviewProps {
@@ -9,46 +10,69 @@ export const PropertyOverview: React.FC<PropertyOverviewProps> = ({ tour }) => {
   const { details } = tour;
 
   const keyStats = [
-    details.builtAreaM2 ? { number: `${details.builtAreaM2} m²`, label: 'ÁREA CONSTRUÍDA' } : null,
-    details.bedrooms ? { number: String(details.bedrooms).padStart(2, '0'), label: 'QUARTOS' } : null,
-    details.suites ? { number: String(details.suites).padStart(2, '0'), label: 'SUÍTES' } : null,
-    details.bathrooms ? { number: String(details.bathrooms).padStart(2, '0'), label: 'BANHEIROS' } : null,
-    details.parkingSpaces ? { number: String(details.parkingSpaces).padStart(2, '0'), label: 'VAGAS' } : null,
-  ].filter(Boolean) as { number: string; label: string }[];
+    details.builtAreaM2 ? { label: 'ÁREA PRIVATIVA', number: `${details.builtAreaM2}`, sub: 'metros quadrados' } : null,
+    details.landAreaM2 ? { label: 'TERRENO TOTAL', number: `${details.landAreaM2}`, sub: 'm² de lote nobre' } : null,
+    details.bedrooms ? { label: 'DORMITÓRIOS', number: String(details.bedrooms).padStart(2, '0'), sub: details.suites ? `${details.suites} suítes plenas` : 'dormitórios' } : null,
+    details.bathrooms ? { label: 'BANHEIROS', number: String(details.bathrooms).padStart(2, '0'), sub: 'acabamento em granito' } : null,
+    details.parkingSpaces ? { label: 'GARAGENS', number: String(details.parkingSpaces).padStart(2, '0'), sub: 'vagas cobertas' } : null,
+    details.hasPool ? { label: 'LAZER EXCLUSIVO', number: 'Sim', sub: 'piscina & gourmet' } : null,
+  ].filter(Boolean) as { label: string; number: string; sub: string }[];
 
   return (
-    <section id="property-overview" className="py-24 md:py-32 px-6 sm:px-12 max-w-7xl mx-auto bg-[#08090A]">
-      <div className="max-w-4xl mx-auto text-left">
-        {/* Sub-header */}
-        <div className="text-amber-400 font-mono text-xs tracking-[0.25em] uppercase mb-3">
-          Apresentação Cuidadosa
-        </div>
+    <section id="conheca-o-imovel" className="w-full py-20 border-b border-[#252A34]/30 bg-[#0D0F12]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+          {/* Left Editorial Description */}
+          <div className="lg:col-span-6 space-y-5">
+            <div className="space-y-1">
+              <span className="font-mono text-[11px] uppercase text-[#C5A880] tracking-[0.16em]">
+                Apresentação de Alto Padrão
+              </span>
+              <h2 className="font-serif text-3xl sm:text-4xl text-[#F8F9FA] font-light tracking-tight">
+                Conheça a Residência
+              </h2>
+            </div>
 
-        {/* Title */}
-        <h2 className="text-4xl sm:text-6xl font-extralight text-white font-serif tracking-tight mb-8">
-          CONHEÇA O IMÓVEL
-        </h2>
+            <p className="text-base sm:text-lg text-[#A6ACB8] font-light leading-relaxed">
+              "{tour.description}"
+            </p>
 
-        {/* Description */}
-        <p className="text-zinc-300 font-light text-base sm:text-xl leading-relaxed font-serif italic mb-16 max-w-3xl">
-          "{tour.description}"
-        </p>
-
-        {/* Big Thin Numbers Separated by Fine Lines (1px) — Rendered ONLY if data exists */}
-        {keyStats.length > 0 && (
-          <div className={`grid grid-cols-2 md:grid-cols-${Math.min(keyStats.length, 4)} border-y border-white/10 py-10 gap-8 md:gap-0 md:divide-x divide-white/10`}>
-            {keyStats.map((stat, idx) => (
-              <div key={idx} className="flex flex-col items-start md:px-8 first:pl-0 last:pr-0">
-                <div className="text-4xl sm:text-6xl font-serif font-extralight text-white mb-2 tracking-tight">
-                  {stat.number}
-                </div>
-                <div className="text-xs font-mono tracking-[0.2em] text-amber-400/90 uppercase">
-                  {stat.label}
-                </div>
+            <div className="pt-2 flex flex-wrap items-center gap-6 text-xs text-[#A6ACB8]">
+              <div className="flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-[#C5A880]" />
+                <span>Documentação 100% Regular</span>
               </div>
-            ))}
+              <div className="flex items-center gap-2">
+                <Sun className="w-4 h-4 text-[#C5A880]" />
+                <span>Orientação Nascente Total</span>
+              </div>
+            </div>
           </div>
-        )}
+
+          {/* Right Spec Matrix Minimalist */}
+          <div className="lg:col-span-6">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-px bg-[#252A34] rounded-2xl overflow-hidden border border-[#252A34]">
+              {keyStats.map((stat, idx) => (
+                <div
+                  key={idx}
+                  className="bg-[#14171D] p-5 flex flex-col justify-between h-36 group hover:bg-[#1A1F27] transition-colors"
+                >
+                  <span className="font-mono text-[10px] uppercase text-[#C5A880] tracking-widest font-semibold">
+                    {stat.label}
+                  </span>
+                  <div>
+                    <div className="font-serif text-3xl text-[#F8F9FA] font-light tracking-tight">
+                      {stat.number}
+                    </div>
+                    <div className="text-[11px] text-[#687082] font-light mt-0.5">
+                      {stat.sub}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -30,12 +30,12 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
   }, []);
 
   const navItems = [
-    { label: 'Imóvel', id: 'overview' },
-    { label: 'Tour 3D', id: 'tour3d' },
-    { label: 'Fotos', id: 'gallery' },
+    { label: 'Conheça o Imóvel', id: 'overview' },
+    { label: 'Tour Virtual 3D', id: 'tour3d' },
+    { label: 'Ambientes', id: 'rooms' },
+    { label: 'Galeria', id: 'gallery' },
     { label: 'Localização', id: 'location' },
-    { label: 'Detalhes', id: 'details' },
-    { label: 'Contato', id: 'contact' },
+    { label: 'Ficha Técnica', id: 'details' },
   ];
 
   const handleItemClick = (id: string) => {
@@ -45,13 +45,13 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-500 ${
         scrolled
-          ? 'bg-[#08090A]/95 backdrop-blur-md py-4 border-b border-white/10 shadow-2xl'
-          : 'bg-gradient-to-b from-[#08090A]/90 via-[#08090A]/40 to-transparent py-5 border-b border-white/5'
+          ? 'bg-[#14171D]/90 backdrop-blur-xl py-3.5 border-b border-[#252A34] shadow-[0_1px_12px_rgba(0,0,0,0.3)]'
+          : 'bg-[#14171D]/75 backdrop-blur-xl py-4 border-b border-[#252A34]/50'
       }`}
     >
-      <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 flex items-center justify-between gap-4">
         {/* Left: Brand Logo & Property Switcher */}
         <div className="flex items-center gap-4">
           <div
@@ -61,32 +61,33 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
             <img
               src="/assets/logo-cardoso.png"
               alt="Cardoso Imóveis"
-              className="h-8 sm:h-10 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(212,175,55,0.3)]"
+              className="h-8 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(197,168,128,0.3)]"
               onError={(e) => {
                 (e.target as HTMLElement).style.display = 'none';
               }}
             />
-            <div className="flex flex-col border-l border-white/15 pl-3">
-              <span className="text-white text-xs font-serif tracking-[0.2em] uppercase font-medium">CARDOSO IMÓVEIS</span>
-              <span className="text-amber-400/90 text-[10px] tracking-[0.2em] font-light uppercase">APRESENTAÇÃO EXCLUSIVA</span>
+            <div className="flex items-center gap-2">
+              <span className="font-serif text-lg text-[#F8F9FA] tracking-tight font-light">
+                Cardoso <span className="text-[#C5A880] italic">Imóveis</span>
+              </span>
             </div>
           </div>
 
           {/* Property Selector Dropdown */}
           {allTours.length > 1 && (
-            <div className="relative hidden sm:block border-l border-white/15 pl-4 ml-2">
+            <div className="relative hidden lg:block border-l border-[#252A34] pl-4 ml-2">
               <button
                 onClick={() => setPropertyDropdownOpen(!propertyDropdownOpen)}
-                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 text-xs text-zinc-300 transition-all cursor-pointer"
+                className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#1A1F27] hover:bg-[#252A34] border border-[#252A34] text-xs text-[#A6ACB8] hover:text-[#F8F9FA] transition-all cursor-pointer"
               >
-                <Building2 className="w-3.5 h-3.5 text-amber-400" />
-                <span className="font-serif truncate max-w-[140px]">{currentTour.propertyName}</span>
-                <ChevronDown className="w-3 h-3 text-zinc-400" />
+                <Building2 className="w-3.5 h-3.5 text-[#C5A880]" />
+                <span className="font-serif truncate max-w-[150px] text-[#F8F9FA]">{currentTour.propertyName}</span>
+                <ChevronDown className="w-3 h-3 text-[#687082]" />
               </button>
 
               {propertyDropdownOpen && (
-                <div className="absolute top-full left-4 mt-2 w-64 bg-[#121316] border border-white/15 rounded-xl shadow-2xl py-2 z-50 animate-in fade-in duration-200">
-                  <div className="px-3 py-1.5 text-[10px] font-mono text-amber-400 uppercase tracking-widest border-b border-white/10 mb-1">
+                <div className="absolute top-full left-4 mt-2 w-70 bg-[#14171D] border border-[#252A34] rounded-xl shadow-2xl py-2 z-50 animate-in fade-in duration-200">
+                  <div className="px-3.5 py-1.5 text-[10px] font-mono text-[#C5A880] uppercase tracking-widest border-b border-[#252A34] mb-1">
                     Imóveis Selecionados ({allTours.length})
                   </div>
                   {allTours.map((item) => (
@@ -96,14 +97,14 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
                         onSelectTour(item);
                         setPropertyDropdownOpen(false);
                       }}
-                      className={`w-full text-left px-4 py-2 text-xs flex flex-col transition-colors ${
+                      className={`w-full text-left px-4 py-2.5 text-xs flex flex-col transition-colors ${
                         item.id === currentTour.id
-                          ? 'bg-amber-400/10 text-amber-300 font-semibold border-l-2 border-amber-400'
-                          : 'text-zinc-300 hover:bg-white/5'
+                          ? 'bg-[#C5A880]/10 text-[#C5A880] font-semibold border-l-2 border-[#C5A880]'
+                          : 'text-[#A6ACB8] hover:bg-[#1A1F27] hover:text-[#F8F9FA]'
                       }`}
                     >
-                      <span className="font-serif text-white">{item.propertyName}</span>
-                      <span className="text-[10px] text-zinc-400 font-light">{item.location} • {item.price}</span>
+                      <span className="font-serif text-[#F8F9FA]">{item.propertyName}</span>
+                      <span className="text-[10px] text-[#687082] font-light">{item.location} • {item.price}</span>
                     </button>
                   ))}
                 </div>
@@ -112,54 +113,53 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
           )}
         </div>
 
-        {/* Right: Clean Editorial Navigation Links */}
-        <nav className="hidden md:flex items-center gap-7">
+        {/* Center: Editorial Navigation Links */}
+        <nav className="hidden xl:flex items-center gap-7">
           {navItems.map((item) => (
             <button
               key={item.id}
               onClick={() => handleItemClick(item.id)}
-              className="text-xs uppercase tracking-[0.2em] font-light text-zinc-300 hover:text-amber-300 transition-colors duration-300 cursor-pointer"
+              className="text-[11px] font-mono uppercase tracking-[0.14em] font-medium text-[#A6ACB8] hover:text-[#F8F9FA] transition-colors duration-200 cursor-pointer"
             >
               {item.label}
             </button>
           ))}
+        </nav>
+
+        {/* Right: Direct Action Buttons */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => handleItemClick('contact')}
+            className="hidden sm:inline-flex items-center justify-center px-4 py-2 rounded-lg btn-gold-warm text-xs tracking-wider uppercase cursor-pointer"
+          >
+            Agendar Visita
+          </button>
 
           <button
             onClick={onOpenAdmin}
             title="Painel Administrativo"
-            className="text-zinc-400 hover:text-amber-400 transition-colors cursor-pointer p-1"
-          >
-            <Settings className="w-4 h-4" />
-          </button>
-        </nav>
-
-        {/* Mobile Controls */}
-        <div className="flex md:hidden items-center gap-3">
-          <button
-            onClick={onOpenAdmin}
-            title="Admin"
-            className="text-zinc-400 hover:text-amber-400 p-1"
+            className="text-[#687082] hover:text-[#C5A880] transition-colors cursor-pointer p-1.5 rounded-lg border border-[#252A34] bg-[#14171D]"
           >
             <Settings className="w-4 h-4" />
           </button>
 
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="text-white p-1"
+            className="xl:hidden text-[#F8F9FA] p-1.5"
           >
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Navigation Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-[#08090A]/98 border-b border-white/10 px-8 py-8 animate-in slide-in-from-top duration-300">
-          <div className="flex flex-col gap-5">
+        <div className="xl:hidden bg-[#0D0F12]/98 border-b border-[#252A34] px-8 py-6 animate-in slide-in-from-top duration-300">
+          <div className="flex flex-col gap-4">
             {/* Property Selector for Mobile */}
             {allTours.length > 1 && (
-              <div className="pb-4 border-b border-white/10">
-                <div className="text-amber-400 text-[10px] font-mono uppercase tracking-[0.2em] mb-2">Alternar Imóvel Selecionado</div>
+              <div className="pb-4 border-b border-[#252A34]">
+                <div className="text-[#C5A880] text-[10px] font-mono uppercase tracking-[0.16em] mb-2">Alternar Imóvel Selecionado</div>
                 <div className="flex flex-col gap-2">
                   {allTours.map((t) => (
                     <button
@@ -170,12 +170,12 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
                       }}
                       className={`text-left p-2.5 rounded-lg border text-xs flex justify-between items-center ${
                         t.id === currentTour.id
-                          ? 'border-amber-400 bg-amber-400/10 text-amber-300'
-                          : 'border-white/10 text-zinc-300 bg-white/5'
+                          ? 'border-[#C5A880] bg-[#C5A880]/10 text-[#C5A880]'
+                          : 'border-[#252A34] text-[#A6ACB8] bg-[#14171D]'
                       }`}
                     >
-                      <span className="font-serif">{t.propertyName}</span>
-                      <span className="text-[10px] text-zinc-400">{t.price}</span>
+                      <span className="font-serif text-[#F8F9FA]">{t.propertyName}</span>
+                      <span className="text-[10px] text-[#687082]">{t.price}</span>
                     </button>
                   ))}
                 </div>
@@ -186,7 +186,7 @@ export const TourHeader: React.FC<TourHeaderProps> = ({
               <button
                 key={item.id}
                 onClick={() => handleItemClick(item.id)}
-                className="text-left text-sm uppercase tracking-[0.2em] font-light text-zinc-200 hover:text-amber-400 transition-colors"
+                className="text-left text-xs font-mono uppercase tracking-[0.16em] font-medium text-[#A6ACB8] hover:text-[#C5A880] transition-colors"
               >
                 {item.label}
               </button>

@@ -1,98 +1,57 @@
 import React from 'react';
-import { Phone, MessageCircle, Globe, MapPin, Shield } from 'lucide-react';
+import { MessageSquare } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="bg-[#08080a] border-t border-white/10 text-zinc-400 py-16 px-6 sm:px-12 font-light text-xs">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-10 mb-12">
-        {/* Col 1: Brand & CRECI (5 cols) */}
-        <div className="md:col-span-5 flex flex-col justify-between">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <img
-                src="/assets/logo-cardoso.png"
-                alt="Cardoso Imóveis"
-                className="h-10 w-auto object-contain filter drop-shadow-[0_2px_8px_rgba(212,175,55,0.3)]"
-              />
-              <div className="border-l border-white/15 pl-3">
-                <div className="text-white font-serif text-sm tracking-widest uppercase">CARDOSO IMÓVEIS</div>
-                <div className="text-amber-400 text-[10px] font-mono tracking-widest uppercase">CRECI 73.567</div>
-              </div>
+    <footer className="w-full bg-[#0C0E11] py-16 border-t border-[#252A34]/50 text-xs">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#252A34]/40">
+          {/* Column 1: Brand */}
+          <div className="md:col-span-5 space-y-3">
+            <div className="font-serif text-xl text-[#F8F9FA] font-light">
+              Cardoso <span className="text-[#C5A880] italic">Imóveis</span>
             </div>
-
-            <p className="text-zinc-400 max-w-sm leading-relaxed mb-6">
-              Apresentação cuidadosa, organizada e exclusiva de imóveis selecionados em Alagoas.
+            <p className="text-[#687082] font-light max-w-md leading-relaxed">
+              Curadoria imobiliária de alto padrão em Alagoas. Projetos singulares que fundem autenticidade arquitetônica, paisagens costeiras e design atemporal.
             </p>
           </div>
 
-          <div className="text-zinc-500 font-mono text-[11px] tracking-wider">
-            © {new Date().getFullYear()} CARDOSO IMÓVEIS · TODOS OS DIREITOS RESERVADOS.
-          </div>
-        </div>
-
-        {/* Col 2: Contatos (4 cols) */}
-        <div className="md:col-span-4 space-y-3">
-          <div className="text-amber-400 font-mono uppercase tracking-widest text-[11px] mb-4">
-            CANAIS DE ATENDIMENTO
-          </div>
-
-          <div className="flex items-center gap-3 text-zinc-300">
-            <Phone className="w-4 h-4 text-amber-400" />
-            <span>(82) 99999-9999 / (82) 3333-3333</span>
+          {/* Column 2: Broker info */}
+          <div className="md:col-span-4 space-y-2">
+            <div className="font-mono text-[10px] uppercase text-[#C5A880] tracking-widest font-semibold">
+              Corretor Responsável
+            </div>
+            <p className="text-[#F8F9FA] font-serif text-sm">Douglas Cardoso</p>
+            <p className="text-[#687082] font-mono">CRECI 73.567 — Região Alagoas</p>
+            <p className="text-[#A6ACB8] font-light pt-1">Ponta Verde, Maceió — AL</p>
           </div>
 
-          <div className="flex items-center gap-3 text-zinc-300">
-            <MessageCircle className="w-4 h-4 text-amber-400" />
+          {/* Column 3: Exclusive Customer Support */}
+          <div className="md:col-span-3 space-y-2">
+            <div className="font-mono text-[10px] uppercase text-[#C5A880] tracking-widest font-semibold">
+              Atendimento Exclusivo
+            </div>
             <a
               href="https://wa.me/5582999999999"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-amber-300 transition-colors"
+              className="inline-flex items-center gap-2 text-[#F8F9FA] hover:text-[#C5A880] transition-colors py-1"
             >
-              WhatsApp Atendimento VIP
+              <MessageSquare className="w-4 h-4 text-[#C5A880]" />
+              <span>Conversar via WhatsApp</span>
             </a>
-          </div>
-
-          <div className="flex items-center gap-3 text-zinc-300">
-            <Globe className="w-4 h-4 text-amber-400" />
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="hover:text-amber-300 transition-colors"
-            >
-              @cardosoimoveis.al
-            </a>
-          </div>
-
-          <div className="flex items-center gap-3 text-zinc-300 pt-2">
-            <MapPin className="w-4 h-4 text-amber-400 flex-shrink-0" />
-            <span>Ponta Verde, Maceió — Alagoas</span>
+            <p className="text-[#687082] font-light">
+              Atendimento sob agendamento prévio.
+            </p>
           </div>
         </div>
 
-        {/* Col 3: Legal & Links (3 cols) */}
-        <div className="md:col-span-3 space-y-3">
-          <div className="text-amber-400 font-mono uppercase tracking-widest text-[11px] mb-4">
-            INFORMAÇÕES LEGAIS
-          </div>
-
-          <div>
-            <span className="hover:text-white transition-colors cursor-pointer block py-1">
-              Políticas de Privacidade
-            </span>
-          </div>
-
-          <div>
-            <span className="hover:text-white transition-colors cursor-pointer block py-1">
-              Termos de Uso
-            </span>
-          </div>
-
-          <div className="flex items-center gap-2 text-zinc-500 pt-4">
-            <Shield className="w-3.5 h-3.5 text-amber-400" />
-            <span>Apresentação Verificada</span>
-          </div>
+        {/* Bottom Disclaimers */}
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[#687082] font-light">
+          <p>© 2026 Cardoso Imóveis. Todos os direitos reservados.</p>
+          <p className="text-center md:text-right max-w-xl text-[11px]">
+            As perspectivas ilustrativas, metragens e especificações técnicas estão sujeitas a validação contratual. Vendas sob regime de exclusividade.
+          </p>
         </div>
       </div>
     </footer>

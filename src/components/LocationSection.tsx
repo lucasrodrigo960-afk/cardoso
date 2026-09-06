@@ -1,4 +1,5 @@
 import React from 'react';
+import { MapPin, Waves, ShoppingBag, ShoppingCart, ShieldCheck } from 'lucide-react';
 import type { Property } from '../types';
 
 interface LocationSectionProps {
@@ -15,76 +16,90 @@ export const LocationSection: React.FC<LocationSectionProps> = ({ tour }) => {
   };
 
   return (
-    <section id="location" className="py-24 md:py-32 px-6 sm:px-12 max-w-7xl mx-auto bg-[#08090A]">
-      {/* Header */}
-      <div className="text-center max-w-3xl mx-auto mb-16">
-        <div className="text-amber-400 font-mono text-xs tracking-[0.25em] uppercase mb-3">
-          Região & Entorno da Propriedade
-        </div>
-        <h2 className="text-4xl sm:text-6xl font-extralight text-white font-serif tracking-tight mb-4">
-          LOCALIZAÇÃO & REGIÃO
-        </h2>
-        <p className="text-zinc-400 font-light text-sm sm:text-base leading-relaxed">
-          {loc.isExactLocation && loc.address
-            ? loc.address
-            : `Bairro ${loc.neighborhood} — ${loc.city}. Endereço exato disponibilizado sob agendamento de visita privativa.`}
-        </p>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
-        {/* Left: Aerial Region Print Image (7 cols) */}
-        <div className="lg:col-span-7 relative h-[420px] md:h-[550px] rounded-3xl overflow-hidden shadow-2xl bg-[#141518] border border-white/10">
-          <img
-            src={loc.regionMapPrint}
-            alt="Foto Aérea da Região"
-            className="w-full h-full object-cover filter brightness-[0.85] contrast-[1.05]"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#08090A] via-transparent to-transparent opacity-80" />
-
-          <div className="absolute bottom-6 left-6 z-10 text-xs font-mono text-white tracking-widest uppercase bg-[#08090A]/80 backdrop-blur-md px-4 py-2 rounded-full border border-white/15">
-            📍 {loc.neighborhood} — {loc.city}
-          </div>
+    <section id="localizacao" className="w-full py-20 border-b border-[#252A34]/30 bg-[#0D0F12]">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-14 space-y-1">
+          <span className="font-mono text-[11px] uppercase text-[#C5A880] tracking-[0.2em]">
+            {loc.neighborhood} — {loc.city}
+          </span>
+          <h2 className="font-serif text-3xl sm:text-5xl text-[#F8F9FA] font-light tracking-tight">
+            Localização Nobre & Privilegiada
+          </h2>
+          <p className="text-sm text-[#687082] font-light leading-relaxed">
+            A tranquilidade e segurança aliadas ao melhor que a região oferece em alta gastronomia, lazer e serviços essenciais.
+          </p>
         </div>
 
-        {/* Right: AO REDOR DO IMÓVEL List (5 cols) */}
-        {loc.nearbyPlaces && loc.nearbyPlaces.length > 0 && (
-          <div className="lg:col-span-5 glass-dark-card rounded-3xl p-8 border border-white/15 flex flex-col justify-between">
-            <div>
-              <div className="text-xs font-mono text-amber-400 tracking-[0.2em] uppercase mb-6 pb-3 border-b border-white/10">
-                AO REDOR DO IMÓVEL
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-stretch">
+          {/* Interactive Aerial Map Print (7 cols) */}
+          <div className="lg:col-span-7 rounded-2xl overflow-hidden border border-[#252A34] relative bg-[#14171D] min-h-[380px] shadow-xl">
+            <img
+              src={loc.regionMapPrint}
+              alt="Foto Aérea da Região"
+              className="w-full h-full object-cover filter brightness-[0.85] contrast-[1.05]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0D0F12] via-transparent to-transparent opacity-80" />
+
+            {/* Map Overlay Label */}
+            <div className="absolute bottom-4 left-4 p-3 rounded-xl bg-[#0D0F12]/90 backdrop-blur-md border border-[#252A34] flex items-center gap-3">
+              <MapPin className="w-5 h-5 text-[#C5A880]" />
+              <div>
+                <div className="font-serif text-xs text-[#F8F9FA] font-semibold">{tour.propertyName}</div>
+                <div className="font-mono text-[10px] text-[#687082]">
+                  {loc.isExactLocation && loc.address ? loc.address : 'Endereço estrito compartilhado sob agendamento'}
+                </div>
               </div>
+            </div>
+          </div>
 
-              <div className="divide-y divide-white/10">
-                {loc.nearbyPlaces.map((place) => (
-                  <div key={place.id} className="py-4 flex items-center justify-between group">
+          {/* POIs & Distances Cards (5 cols) */}
+          <div className="lg:col-span-5 flex flex-col justify-between space-y-4">
+            <div className="space-y-3">
+              <h3 className="font-serif text-xl text-[#F8F9FA] font-light mb-4">
+                Mobilidade e Conveniência
+              </h3>
+
+              {loc.nearbyPlaces && loc.nearbyPlaces.map((place) => (
+                <div
+                  key={place.id}
+                  className="p-4 rounded-xl bg-[#14171D] border border-[#252A34] flex items-center justify-between hover:border-[#C5A880]/40 transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-[#1A1F27] flex items-center justify-center text-[#C5A880]">
+                      {place.category === 'beach' ? (
+                        <Waves className="w-4 h-4" />
+                      ) : place.category === 'shopping' ? (
+                        <ShoppingBag className="w-4 h-4" />
+                      ) : (
+                        <ShoppingCart className="w-4 h-4" />
+                      )}
+                    </div>
                     <div>
-                      <div className="text-base font-serif font-light text-white group-hover:text-amber-300 transition-colors">
+                      <div className="font-serif text-sm text-[#F8F9FA] font-medium">
                         {place.title}
                       </div>
-                      <div className="text-[11px] text-zinc-500 font-mono uppercase tracking-wider mt-0.5">
-                        {place.category === 'beach'
-                          ? 'Lazer & Praia'
-                          : place.category === 'shopping'
-                          ? 'Compras'
-                          : place.category === 'supermarket'
-                          ? 'Conveniência'
-                          : 'Serviços'}
+                      <div className="text-[11px] text-[#687082] font-mono">
+                        {place.category === 'beach' ? 'Lazer & Praia' : place.category === 'shopping' ? 'Compras & Gastronomia' : 'Conveniência'}
                       </div>
                     </div>
-
-                    <div className="font-mono text-sm font-semibold text-amber-400 tracking-wider flex-shrink-0 ml-4">
-                      {place.timeText}
-                    </div>
                   </div>
-                ))}
-              </div>
+
+                  <div className="text-right">
+                    <span className="font-mono text-xs text-[#C5A880] font-semibold block">
+                      {place.timeText}
+                    </span>
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <div className="mt-8 pt-4 border-t border-white/10 text-xs text-zinc-500 font-light leading-relaxed">
-              Localização privilegiada no polo mais valorizado da região, com acesso fácil a gastronomia e serviços.
+            <div className="p-4 rounded-xl bg-[#14171D] border border-[#252A34] text-xs text-[#687082] flex items-center gap-3">
+              <ShieldCheck className="w-5 h-5 text-[#C5A880] flex-shrink-0" />
+              <span>Localização protegida por perímetro restrito com monitoramento perimetral.</span>
             </div>
           </div>
-        )}
+        </div>
       </div>
     </section>
   );

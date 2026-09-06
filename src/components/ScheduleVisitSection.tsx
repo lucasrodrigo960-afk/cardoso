@@ -1,11 +1,10 @@
 import React from 'react';
-import { ArrowUp, PhoneCall, Calendar } from 'lucide-react';
+import { ArrowUp, MessageSquare, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import type { Property } from '../types';
 
 interface ScheduleVisitSectionProps {
   tour: Property;
   onBackToTop: () => void;
-  onScheduleVisit?: () => void;
 }
 
 export const ScheduleVisitSection: React.FC<ScheduleVisitSectionProps> = ({
@@ -19,95 +18,91 @@ export const ScheduleVisitSection: React.FC<ScheduleVisitSectionProps> = ({
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`;
 
   return (
-    <section id="contact" className="relative min-h-[90vh] py-24 px-4 sm:px-6 bg-[#08090A] flex flex-col justify-center items-center overflow-hidden">
-      {/* Background Estate Photo */}
-      <div className="absolute inset-0 z-0">
-        <img
-          src={tour.heroImage}
-          alt={tour.propertyName}
-          className="w-full h-full object-cover filter brightness-[0.35] contrast-[1.1]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#08090A] via-transparent to-[#08090A]/80" />
-      </div>
+    <section id="agendar-visita" className="w-full py-24 relative overflow-hidden bg-[#0D0F12]">
+      {/* Ambient subtle background glow */}
+      <div className="absolute -top-32 left-1/2 -translate-x-1/2 w-[600px] h-[350px] bg-[#C5A880]/10 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Content Header */}
-      <div className="relative z-10 text-center max-w-3xl mx-auto mb-12">
-        <div className="text-amber-400 font-mono text-xs tracking-[0.25em] uppercase mb-3">
-          Próximo Passo
+      <div className="max-w-7xl mx-auto px-6 sm:px-10 relative z-10">
+        {/* Section Header */}
+        <div className="text-center max-w-2xl mx-auto mb-16 space-y-1">
+          <span className="font-mono text-[11px] uppercase text-[#C5A880] tracking-[0.2em]">
+            Próximo Passo
+          </span>
+          <h2 className="font-serif text-4xl sm:text-5xl text-[#F8F9FA] font-light tracking-tight">
+            Gostou do que viu?
+          </h2>
+          <p className="text-sm text-[#687082] font-light">
+            Agende uma visita privativa e conheça pessoalmente cada detalhe arquitetônico desta residência.
+          </p>
         </div>
-        <h2 className="text-4xl sm:text-6xl font-extralight text-white font-serif tracking-tight mb-3">
-          GOSTOU DO QUE VIU?
-        </h2>
-        <p className="text-base sm:text-xl text-zinc-300 font-serif italic font-light">
-          Agende uma visita e conheça o imóvel pessoalmente.
-        </p>
-      </div>
 
-      {/* Main Glass Card (Douglas Cardoso CEO Executive Presentation) */}
-      <div className="relative z-10 w-full max-w-2xl bg-[#0f0f12]/80 backdrop-blur-2xl rounded-3xl p-8 sm:p-12 border border-amber-400/35 shadow-[0_20px_80px_rgba(0,0,0,0.9),0_0_40px_rgba(212,175,55,0.15)] text-center my-auto">
-        {/* CEO Avatar with Golden Frame */}
-        <div className="relative w-36 h-36 mx-auto rounded-full p-1 bg-gradient-to-tr from-amber-600 via-amber-300 to-amber-500 shadow-[0_0_30px_rgba(212,175,55,0.5)] mb-6">
-          <div className="w-full h-full rounded-full overflow-hidden border-2 border-slate-950">
-            <img
-              src={tour.consultantImage || '/assets/ceo-card.png'}
-              alt={tour.consultantName || 'Douglas Cardoso'}
-              className="w-full h-full object-cover"
-              onError={(e) => {
-                (e.target as HTMLImageElement).src = '/assets/ceo-card.png';
-              }}
-            />
+        <div className="max-w-3xl mx-auto">
+          {/* Corretor Executivo Card */}
+          <div className="p-8 sm:p-12 rounded-2xl bg-[#14171D] border border-[#252A34] flex flex-col items-center text-center space-y-6 shadow-2xl">
+            {/* CEO Avatar with Golden Frame & Online Badge */}
+            <div className="relative w-28 h-28 rounded-full p-1 bg-gradient-to-tr from-[#C5A880] to-[#E2D3BE]">
+              <img
+                src={tour.consultantImage || '/assets/ceo-card.png'}
+                alt={tour.consultantName || 'Douglas Cardoso'}
+                className="w-full h-full object-cover rounded-full bg-[#0D0F12]"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = '/assets/ceo-card.png';
+                }}
+              />
+              <div
+                className="absolute bottom-1 right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-[#0D0F12] flex items-center justify-center"
+                title="Online no WhatsApp"
+              >
+                <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+              </div>
+            </div>
+
+            <div className="space-y-1">
+              <h3 className="font-serif text-3xl text-[#F8F9FA] font-medium">
+                {tour.consultantName || 'Douglas Cardoso'}
+              </h3>
+              <p className="font-mono text-xs text-[#C5A880] uppercase tracking-wider font-semibold">
+                {tour.consultantTitle || 'CRECI 73.567 — Especialista Ponta Verde'}
+              </p>
+              <p className="text-xs text-[#687082] font-light pt-2 max-w-sm mx-auto italic font-serif">
+                “Será um prazer conduzir uma experiência imersiva e tirar todas as suas dúvidas financeiras e estruturais.”
+              </p>
+            </div>
+
+            <div className="w-full pt-2 max-w-md space-y-3">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-3.5 px-6 rounded-xl btn-gold-warm text-xs uppercase tracking-[0.2em] font-semibold flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(197,168,128,0.2)]"
+              >
+                <MessageSquare className="w-4 h-4 text-[#111317]" />
+                <span>Falar Direto no WhatsApp</span>
+              </a>
+
+              <div className="flex items-center justify-center gap-6 text-xs text-[#687082] pt-1">
+                <span className="flex items-center gap-1.5 font-mono text-[11px]">
+                  <ShieldCheck className="w-3.5 h-3.5 text-[#C5A880]" /> Sigilo Garantido
+                </span>
+                <span className="flex items-center gap-1.5 font-mono text-[11px]">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-[#C5A880]" /> Imóvel Exclusivo
+                </span>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* CEO Name */}
-        <h3 className="text-3xl sm:text-4xl font-light font-serif text-white mb-1 tracking-wide">
-          {tour.consultantName || 'Douglas Cardoso'}
-        </h3>
-
-        {/* CEO Subtitle */}
-        <div className="text-amber-400 font-mono text-xs font-semibold tracking-[0.25em] uppercase mb-6">
-          {tour.consultantTitle || 'CEO - CRECI 73.567'}
-        </div>
-
-        {/* Quote */}
-        <p className="text-sm sm:text-base text-amber-200/90 font-serif italic font-light mb-10 max-w-md mx-auto leading-relaxed">
-          “Será um prazer apresentar pessoalmente cada detalhe desta propriedade.”
-        </p>
-
-        {/* Direct Action Buttons Pair (NO Forms) */}
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4 max-w-lg mx-auto">
-          {/* Button 1: AGENDAR VISITA (Direct WhatsApp Action) */}
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-1/2 py-3.5 px-6 rounded-full bg-slate-100 hover:bg-white text-slate-950 font-bold text-xs tracking-[0.2em] uppercase border border-amber-400/80 shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2"
+        {/* Return to Top Button */}
+        <div className="text-center mt-16">
+          <button
+            onClick={onBackToTop}
+            className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-[0.2em] text-[#C5A880] hover:text-[#E2D3BE] transition-colors cursor-pointer group"
           >
-            <Calendar className="w-4 h-4 text-slate-950" />
-            <span>AGENDAR VISITA</span>
-          </a>
-
-          {/* Button 2: FALAR COM UM CONSULTOR */}
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-1/2 py-3.5 px-6 rounded-full bg-[#1c1c20] hover:bg-[#25252a] text-white font-bold text-xs tracking-[0.2em] uppercase border border-amber-400/60 shadow-lg hover:scale-105 transition-all flex items-center justify-center gap-2"
-          >
-            <PhoneCall className="w-4 h-4 text-amber-400" />
-            <span>FALAR COM CONSULTOR</span>
-          </a>
+            <ArrowUp className="w-4 h-4 transition-transform group-hover:-translate-y-1" />
+            <span>Voltar ao Início do Site</span>
+          </button>
         </div>
       </div>
-
-      {/* Return to Top Button */}
-      <button
-        onClick={onBackToTop}
-        className="relative z-10 mt-12 inline-flex items-center gap-2 text-xs font-serif tracking-[0.25em] text-amber-400 hover:text-amber-300 uppercase transition-colors cursor-pointer group"
-      >
-        <ArrowUp className="w-4 h-4 transition-transform group-hover:-translate-y-1" />
-        <span>VOLTAR AO INÍCIO DO SITE</span>
-      </button>
     </section>
   );
 };

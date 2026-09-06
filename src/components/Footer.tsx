@@ -3,51 +3,51 @@ import { MessageSquare } from 'lucide-react';
 
 export const Footer: React.FC = () => {
   return (
-    <footer className="w-full bg-[#0C0E11] py-16 border-t border-[#252A34]/50 text-xs">
+    <footer className="w-full bg-[#FFFFFF] py-16 border-t border-[#E5E7EB] text-xs">
       <div className="max-w-7xl mx-auto px-6 sm:px-10">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#252A34]/40">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 pb-12 border-b border-[#E5E7EB]">
           {/* Column 1: Brand */}
           <div className="md:col-span-5 space-y-3">
-            <div className="font-serif text-xl text-[#F8F9FA] font-light">
-              Cardoso <span className="text-[#C5A880] italic">Imóveis</span>
+            <div className="font-serif text-xl text-[#111827] font-light">
+              Cardoso <span className="text-[#9C7D54] italic">Imóveis</span>
             </div>
-            <p className="text-[#687082] font-light max-w-md leading-relaxed">
+            <p className="text-[#6B7280] font-light max-w-md leading-relaxed">
               Curadoria imobiliária de alto padrão em Alagoas. Projetos singulares que fundem autenticidade arquitetônica, paisagens costeiras e design atemporal.
             </p>
           </div>
 
           {/* Column 2: Broker info */}
           <div className="md:col-span-4 space-y-2">
-            <div className="font-mono text-[10px] uppercase text-[#C5A880] tracking-widest font-semibold">
+            <div className="font-mono text-[10px] uppercase text-[#9C7D54] tracking-widest font-semibold">
               Corretor Responsável
             </div>
-            <p className="text-[#F8F9FA] font-serif text-sm">Douglas Cardoso</p>
-            <p className="text-[#687082] font-mono">CRECI 73.567 — Região Alagoas</p>
-            <p className="text-[#A6ACB8] font-light pt-1">Ponta Verde, Maceió — AL</p>
+            <p className="text-[#111827] font-serif text-sm font-medium">Douglas Cardoso</p>
+            <p className="text-[#6B7280] font-mono">CRECI 73.567 — Região Alagoas</p>
+            <p className="text-[#4B5563] font-light pt-1">Ponta Verde, Maceió — AL</p>
           </div>
 
           {/* Column 3: Exclusive Customer Support */}
           <div className="md:col-span-3 space-y-2">
-            <div className="font-mono text-[10px] uppercase text-[#C5A880] tracking-widest font-semibold">
+            <div className="font-mono text-[10px] uppercase text-[#9C7D54] tracking-widest font-semibold">
               Atendimento Exclusivo
             </div>
             <a
               href="https://wa.me/5582999999999"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-[#F8F9FA] hover:text-[#C5A880] transition-colors py-1"
+              className="inline-flex items-center gap-2 text-[#111827] hover:text-[#9C7D54] transition-colors py-1 font-medium"
             >
-              <MessageSquare className="w-4 h-4 text-[#C5A880]" />
+              <MessageSquare className="w-4 h-4 text-[#9C7D54]" />
               <span>Conversar via WhatsApp</span>
             </a>
-            <p className="text-[#687082] font-light">
+            <p className="text-[#6B7280] font-light">
               Atendimento sob agendamento prévio.
             </p>
           </div>
         </div>
 
         {/* Bottom Disclaimers */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[#687082] font-light">
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[#6B7280] font-light">
           <p>© 2026 Cardoso Imóveis. Todos os direitos reservados.</p>
           <p className="text-center md:text-right max-w-xl text-[11px]">
             As perspectivas ilustrativas, metragens e especificações técnicas estão sujeitas a validação contratual. Vendas sob regime de exclusividade.

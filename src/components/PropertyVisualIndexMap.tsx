@@ -7,11 +7,20 @@ interface PropertyVisualIndexMapProps {
   onSelectRoom: (room: Room) => void;
 }
 
+const DEFAULT_CATEGORIES = [
+  { id: 'area-social', name: 'ÁREA SOCIAL', order: 1 },
+  { id: 'area-intima', name: 'ÁREA ÍNTIMA', order: 2 },
+  { id: 'area-externa', name: 'ÁREA EXTERNA', order: 3 },
+];
+
 export const PropertyVisualIndexMap: React.FC<PropertyVisualIndexMapProps> = ({
   tour,
   onSelectRoom,
 }) => {
-  const rootRooms = tour.rooms.filter((r) => !r.parentId);
+  const rootRooms = (tour.rooms || []).filter((r) => !r.parentId);
+  const categories = (tour.categories && tour.categories.length > 0)
+    ? tour.categories
+    : DEFAULT_CATEGORIES;
 
   return (
     <section id="tour3d" className="w-full py-20 border-b border-[#E5E7EB] bg-[#FBFBFC] select-none">
@@ -35,9 +44,14 @@ export const PropertyVisualIndexMap: React.FC<PropertyVisualIndexMapProps> = ({
 
         {/* Visual Index Diagram Container */}
         <div className="p-6 sm:p-10 rounded-3xl bg-[#FFFFFF] border border-[#E5E7EB] shadow-xl space-y-8">
-          {tour.categories.map((cat) => {
+          {categories.map((cat) => {
             const categoryRooms = rootRooms.filter((r) => r.categoryId === cat.id);
-            if (categoryRooms.length === 0) return null;
+            // If rooms don't specify categoryId, display them in the first category
+            const roomsToDisplay = categoryRooms.length > 0
+              ? categoryRooms
+              : (cat.id === 'area-social' ? rootRooms : []);
+
+            if (roomsToDisplay.length === 0) return null;
 
             return (
               <div key={cat.id} className="space-y-4">
@@ -51,8 +65,8 @@ export const PropertyVisualIndexMap: React.FC<PropertyVisualIndexMapProps> = ({
 
                 {/* Rooms & Subrooms Fluxogram Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {categoryRooms.map((room) => {
-                    const childRooms = tour.rooms.filter((r) => r.parentId === room.id);
+                  {roomsToDisplay.map((room) => {
+                    const childRooms = (tour.rooms || []).filter((r) => r.parentId === room.id);
 
                     return (
                       <div

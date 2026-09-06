@@ -21,9 +21,12 @@ export function App() {
     const saved = localStorage.getItem('cardoso_imoveis_tours');
     if (saved) {
       try {
-        return JSON.parse(saved);
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0 && parsed[0].categories) {
+          return parsed;
+        }
       } catch (e) {
-        return ALL_PROPERTIES;
+        // Fallback to fresh demo data
       }
     }
     return ALL_PROPERTIES;
